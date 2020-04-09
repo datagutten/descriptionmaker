@@ -27,7 +27,7 @@
         }
     ],
     "autoload": {
-        "classmap": ["functions_description.php", "tvdb_description.class.php"],
+        "classmap": ["functions_description.php"],
         "psr-4": {
             "datagutten\\descriptionMaker\\": "src"
         }

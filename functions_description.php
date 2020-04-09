@@ -2,6 +2,7 @@
 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use datagutten\tvdb\tvdb;
 
 class description
 {
@@ -133,4 +134,26 @@ class description
 		$info=preg_replace("/Unique ID.+\n/",'',$info);
 		return $info;
 	}
+
+    /**
+     * Get banner from TVDB and format with tags
+     * @param array $series
+     * @param bool $alternate_name
+     * @return string
+     */
+    public function tvdb_banner($series,$alternate_name=false)
+    {
+        if(!isset($series['Series']))
+            throw new InvalidArgumentException('Missing key "Series"');
+
+        $episodelink=tvdb::series_link($series['Series']['id']);
+
+        if(!empty($series['Series']['banner']))
+        {
+            $banner_url = 'https://artworks.thetvdb.com/banners/'.$series['Series']['banner'];
+            return '[url='.$episodelink.'][img]'.$banner_url.'[/img][/url]';
+        }
+        else
+            return sprintf('[url=%s][b]%s[/b][/url]',$episodelink,($alternate_name!==false ? $alternate_name : $series['Series']['SeriesName'])); //In case the series is not found or don't have a banner, use the series name as banner
+    }
 }
