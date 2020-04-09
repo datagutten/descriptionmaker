@@ -1,0 +1,38 @@
+{
+    "name": "datagutten/descriptionmaker",
+    "description": "Create description pages for TV series or music",
+    "type": "library",
+    "require": {
+        "ext-simplexml": "*",
+        "datagutten/audio-metadata": "^3.0",
+        "datagutten/imagehost": "^2.1",
+        "datagutten/tidal-tools": "^2.2",
+        "datagutten/tvdb": "^3.0",
+        "datagutten/video-tools": "^1.0",
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.2"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/datagutten/Requests.git"
+        }
+    ],
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "datagutten",
+            "email": "datagutten@datagutten.net"
+        }
+    ],
+    "autoload": {
+        "classmap": ["functions_description.php", "tvdb_description.class.php"],
+        "psr-4": {
+            "datagutten\\descriptionMaker\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
