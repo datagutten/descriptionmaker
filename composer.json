@@ -8,7 +8,7 @@
         "datagutten/imagehost": "^2.1",
         "datagutten/tidal-tools": "^2.2",
         "datagutten/tvdb": "^3.0",
-        "datagutten/video-tools": "^1.0",
+        "datagutten/video-tools": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.2"
