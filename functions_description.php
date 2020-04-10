@@ -1,13 +1,25 @@
 <?Php
 
+use datagutten\image_host\exceptions\UploadFailed;
+use datagutten\image_host\image_host;
+use datagutten\video_tools\exceptions\DurationNotFoundException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use datagutten\tvdb\tvdb;
 
 class description
 {
+    /**
+     * @var dependcheck
+     */
 	private $dependcheck;
+    /**
+     * @var video
+     */
 	private $video;
+    /**
+     * @var image_host
+     */
 	public $imagehost;
 	public $error;
 
@@ -16,10 +28,15 @@ class description
 		$config = require 'config.php';
 		$this->dependcheck=new dependcheck;
 		$this->video=new video;
-		//require '../imagehost/loader.php';
 		$this->imagehost=new $config['image_host'];
 	}
-	public function serieinfo($release) //Henter serie og episodeinfo fra releasenavn
+
+    /**
+     * Parse series information from release name
+     * @param $release
+     * @return array|bool Return false on failure
+     */
+	public function serieinfo($release)
 	{
 		if (preg_match('^(.+?)S*([0-9]*)EP*([0-9]+)^i',$release,$serieinfo)) //Try to get season and episode info from the release name
 		{
@@ -32,7 +49,15 @@ class description
 		return $serieinfo; //1=serienavn, 2=sesong
 	}
 
-	//Create snapshots from video file
+    /**
+     * Create snapshots from video file
+     * @param $file
+     * @param bool $snapshotdir
+     * @return array
+     * @throws DependencyFailedException
+     * @throws FileNotFoundException
+     * @throws DurationNotFoundException
+     */
 	public function snapshots($file,$snapshotdir=false)
 	{
 		$positions=$this->video->snapshotsteps($file,4); //Calcuate snapshot positions
@@ -43,13 +68,18 @@ class description
 		return $this->video->snapshots($file,$positions,$snapshotdir);
 	}
 
-	//Upload snapshots using imagehost class
-	function upload_snapshots($snapshots)
+    /**
+     * Upload snapshots using imagehost class
+     * @param array $snapshots
+     * @param string $prefix
+     * @return array
+     * @throws UploadFailed Image upload failed
+     */
+	function upload_snapshots($snapshots, $prefix = '')
 	{
 		if(empty($snapshots))
-			return false;
-		if(empty($this->imagehost))
-			return false;
+			throw new InvalidArgumentException('Snapshots empty');
+		$snapshotlinks = [];
 		foreach ($snapshots as $key=>$snapshot)
 		{
 		    if(!empty($prefix))
@@ -60,15 +90,15 @@ class description
                 $snapshot = $newfile;
             }
 			$upload=$this->imagehost->upload($snapshot);
-			if($upload===false)
-			{
-				$this->error=$this->imagehost->error;
-				return false;
-			}
 			$snapshotlinks[$key]=$upload;
 		}
 		return $snapshotlinks;
 	}
+
+    /**
+     * @param array $snapshotlinks
+     * @return string
+     */
 	function snapshots_bbcode($snapshotlinks)
 	{
 		$bbcode='';
@@ -82,6 +112,12 @@ class description
 		return $bbcode;
 	}
 
+    /**
+     * @param string $file
+     * @return string
+     * @throws DependencyFailedException
+     * @throws FileNotFoundException
+     */
 	public function mediainfo($file)
 	{
 	    if(!file_exists($file))
@@ -124,6 +160,13 @@ class description
 		}
 		return $mediainfo;
 	}
+
+    /**
+     * @param string $file
+     * @return string
+     * @throws DependencyFailedException
+     * @throws FileNotFoundException
+     */
 	public function simplemediainfo($file)
 	{
         if(!file_exists($file))
