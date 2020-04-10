@@ -52,6 +52,13 @@ class description
 			return false;
 		foreach ($snapshots as $key=>$snapshot)
 		{
+		    if(!empty($prefix))
+            {
+                $pathinfo = pathinfo($snapshot);
+                $newfile = sprintf('%s/%s_%s.%s', $pathinfo['dirname'], $prefix, $pathinfo['filename'], $pathinfo['extension']);
+                rename($snapshot, $newfile);
+                $snapshot = $newfile;
+            }
 			$upload=$this->imagehost->upload($snapshot);
 			if($upload===false)
 			{
