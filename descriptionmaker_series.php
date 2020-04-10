@@ -1,13 +1,13 @@
 <?Php
 
 use datagutten\image_host\exceptions\UploadFailed;
-use datagutten\tvdb\tvdb;
+use datagutten\tvdb;
 use datagutten\video_tools\exceptions\DurationNotFoundException;
 
 require 'vendor/autoload.php';
 require_once 'functions_description.php';
 require_once 'config.php';
-$tvdb=new tvdb_description();
+$tvdb=new tvdb\tvdb();
 
 $desc=new description;
 $options=getopt('',array('tvdb_id:','tvdb_lang:'));
@@ -47,19 +47,19 @@ $release=basename($dir);
 var_dump($release);
 if(!preg_match('/(.+?).S([0-9]+).+/i',$release,$matches)) //Extract title and season for TVDB search
 	die("Unable to find series and season\n");
-if(!isset($options['tvdb_id']))
-{
-	$tvdb_series=$tvdb->series_search($matches[1],$options['tvdb_lang']);
-	if($tvdb_series===false)
-		die($tvdb->error."\n");
-	$seriesid=$tvdb_series['id'];
-}
-else
-	$seriesid=$options['tvdb_id'];
+try {
+    if (!isset($options['tvdb_id'])) {
+        $tvdb_series = $tvdb->series_search($matches[1], $options['tvdb_lang']);
+        $seriesid = $tvdb_series['id'];
+    } else
+        $seriesid = $options['tvdb_id'];
 
-$tvdb_series=$tvdb->get_series_and_episodes($seriesid,$options['tvdb_lang']);
-if($tvdb_series===false)
-	die($tvdb->error."\n");
+    $tvdb_series = $tvdb->get_series_and_episodes($seriesid, $options['tvdb_lang']);
+}
+catch (tvdb\api_error $e)
+{
+    die('TVDB API error: '.$e->getMessage());
+}
 
 echo "TVDB banner\n";
 $description=$tvdb->banner_description($tvdb_series,$release)."\n";
