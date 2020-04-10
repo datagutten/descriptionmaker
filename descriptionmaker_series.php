@@ -62,8 +62,15 @@ catch (tvdb\api_error $e)
 }
 
 echo "TVDB banner\n";
-$description=$tvdb->banner_description($tvdb_series,$release)."\n";
+$description=$desc->tvdb_banner($tvdb_series,$release)."\n";
+if(!empty($tvdb_series['Series']['overview']))
+    $description .= $tvdb_series['Series']['overview']."\n";
+
 echo "List episodes\n";
+
+/**
+ * @var $episode array
+ */
 foreach($tvdb_series['Episode'] as $episode)
 {
 	if($episode['airedSeason']!=(int)$matches[2])
