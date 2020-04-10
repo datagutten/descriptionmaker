@@ -1,4 +1,9 @@
 <?Php
+
+use datagutten\image_host\exceptions\UploadFailed;
+use datagutten\tvdb\tvdb;
+use datagutten\video_tools\exceptions\DurationNotFoundException;
+
 require 'vendor/autoload.php';
 require_once 'functions_description.php';
 require_once 'config.php';
@@ -37,15 +42,6 @@ if(substr($dir,-1,1)=='/')
 	$dir=substr($dir,0,-1);
 
 /*file_put_contents($dir.'.mediainfo',$desc->simplemediainfo($file)); //Write mediainfo to a file
-$snapshots=$desc->snapshots($file,$dir.'/../snapshots');
-
-$snapshotlinks=$desc->upload_snapshots($snapshots);
-if($snapshotlinks===false)
-{
-	die('Failed to upload snapshots: '.$desc->error."\n");
-}
-
-print_r($snapshotlinks);
 */
 $release=basename($dir);
 var_dump($release);
@@ -77,7 +73,16 @@ foreach($tvdb_series['Episode'] as $episode)
 	$description.=trim($episode['overview'])."\n";
 }
 echo "Snapshots bbcode\n";
-$description.=$desc->snapshots_bbcode($snapshotlinks);
+
+try {
+    $snapshots = $desc->snapshots($file);
+    $snapshotlinks = $desc->upload_snapshots($snapshots, basename($file));
+    $description .= $desc->snapshots_bbcode($snapshotlinks);
+}
+catch (DependencyFailedException|DurationNotFoundException|FileNotFoundException|UploadFailed $e)
+{
+    echo $e->getMessage()."\n";
+}
 
 file_put_contents($descfile=$dir.'.txt',$description); //Write the complete description to a file
 echo $descfile."\n";
