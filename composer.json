@@ -6,7 +6,7 @@
         "ext-mbstring": "*",
         "ext-simplexml": "*",
         "datagutten/audio-metadata": "^3.0",
-        "datagutten/imagehost": "dev-master",
+        "datagutten/imagehost": "^2.2",
         "datagutten/musicbrainz": "^3.0",
         "datagutten/tidal-tools": "^2.2",
         "datagutten/tvdb": "^3.0",

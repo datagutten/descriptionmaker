@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bde2deb50c8687bd98084c8a472df632",
+    "content-hash": "05fb08c4e25e015099d8d8145d7bf9b8",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -88,23 +88,23 @@
         },
         {
             "name": "datagutten/imagehost",
-            "version": "v2.1",
+            "version": "v2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/imagehost.git",
-                "reference": "d250d96844717f0f13c2da1b867f3cc012aab60f"
+                "reference": "72f71c77462ef568b998ee9591a07edd90e67e54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/imagehost/zipball/d250d96844717f0f13c2da1b867f3cc012aab60f",
-                "reference": "d250d96844717f0f13c2da1b867f3cc012aab60f",
+                "url": "https://api.github.com/repos/datagutten/imagehost/zipball/72f71c77462ef568b998ee9591a07edd90e67e54",
+                "reference": "72f71c77462ef568b998ee9591a07edd90e67e54",
                 "shasum": ""
             },
             "require": {
                 "cweagans/composer-patches": "~1.0",
                 "ext-curl": "*",
                 "ext-json": "*",
-                "rmccue/requests": "^1.7",
+                "rmccue/requests": "1.7",
                 "symfony/filesystem": "^4.3"
             },
             "require-dev": {
@@ -134,7 +134,54 @@
                 }
             ],
             "description": "A PHP class structure to upload images to different hosts",
-            "time": "2019-11-25T16:22:28+00:00"
+            "time": "2020-04-11T19:33:49+00:00"
+        },
+        {
+            "name": "datagutten/musicbrainz",
+            "version": "v3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/datagutten/musicbrainz.git",
+                "reference": "6944bb701c2b39e9bc777082c0bad88f76855813"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/datagutten/musicbrainz/zipball/6944bb701c2b39e9bc777082c0bad88f76855813",
+                "reference": "6944bb701c2b39e9bc777082c0bad88f76855813",
+                "shasum": ""
+            },
+            "require": {
+                "datagutten/tools": "^1.1",
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "rmccue/requests": "^1.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "datagutten\\musicbrainz\\": "src"
+                },
+                "classmap": [
+                    "Digest.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "datagutten",
+                    "email": "datagutten@datagutten.net"
+                }
+            ],
+            "description": "PHP class and tools to work with data on musicbrainz.org",
+            "time": "2020-04-11T09:25:52+00:00"
         },
         {
             "name": "datagutten/tidal-tools",
@@ -176,16 +223,16 @@
         },
         {
             "name": "datagutten/tools",
-            "version": "v1.6",
+            "version": "v1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/tools.git",
-                "reference": "a66ee0a08012578a95d5221bf147bc355a4f8e2f"
+                "reference": "0c7236686421065e749c1d01dd3645efb810923b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/tools/zipball/a66ee0a08012578a95d5221bf147bc355a4f8e2f",
-                "reference": "a66ee0a08012578a95d5221bf147bc355a4f8e2f",
+                "url": "https://api.github.com/repos/datagutten/tools/zipball/0c7236686421065e749c1d01dd3645efb810923b",
+                "reference": "0c7236686421065e749c1d01dd3645efb810923b",
                 "shasum": ""
             },
             "require": {
@@ -193,7 +240,8 @@
                 "ext-simplexml": "*"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.4"
+                "phpunit/phpunit": "^8.4",
+                "symfony/filesystem": "^5.0"
             },
             "type": "library",
             "autoload": {
@@ -216,7 +264,7 @@
                 "GPL-3.0-or-later"
             ],
             "description": "Tools used in my projects",
-            "time": "2020-04-05T12:55:34+00:00"
+            "time": "2020-04-11T10:53:34+00:00"
         },
         {
             "name": "datagutten/tvdb",
@@ -308,6 +356,96 @@
             "time": "2019-11-23T11:14:32+00:00"
         },
         {
+            "name": "orpheusnet/logchecker",
+            "version": "0.8.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OPSnet/Logchecker.git",
+                "reference": "fe836b646f75c5f77ad5a17be52c6860f723e5b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OPSnet/Logchecker/zipball/fe836b646f75c5f77ad5a17be52c6860f723e5b5",
+                "reference": "fe836b646f75c5f77ad5a17be52c6860f723e5b5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7",
+                "symfony/console": "^3.4",
+                "symfony/debug": "^3.4",
+                "symfony/yaml": "^3.4"
+            },
+            "bin": [
+                "bin/logchecker"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OrpheusNET\\Logchecker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Orpheus",
+                    "email": "no-reply@orpheus.network"
+                }
+            ],
+            "description": "Logchecker for validating logs generated from supported ripping programs (like EAC and XLD)",
+            "time": "2019-07-24T05:59:47+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2020-03-23T09:12:05+00:00"
+        },
+        {
             "name": "rmccue/requests",
             "version": "v1.7.0",
             "source": {
@@ -333,7 +471,6 @@
                     "Requests": "library/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "ISC"
             ],
@@ -354,7 +491,138 @@
                 "iri",
                 "sockets"
             ],
+            "support": {
+                "source": "https://github.com/datagutten/Requests/tree/v1.7.0"
+            },
             "time": "2016-10-13T00:11:37+00:00"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v3.4.39",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "bf60d5e606cd595391c5f82bf6b570d9573fa120"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/bf60d5e606cd595391c5f82bf6b570d9573fa120",
+                "reference": "bf60d5e606cd595391c5f82bf6b570d9573fa120",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/debug": "~2.8|~3.0|~4.0",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.4",
+                "symfony/process": "<3.3"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/config": "~3.3|~4.0",
+                "symfony/dependency-injection": "~3.4|~4.0",
+                "symfony/event-dispatcher": "~2.8|~3.0|~4.0",
+                "symfony/lock": "~3.4|~4.0",
+                "symfony/process": "~3.3|~4.0"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/lock": "",
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2020-03-27T17:07:22+00:00"
+        },
+        {
+            "name": "symfony/debug",
+            "version": "v3.4.39",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/debug.git",
+                "reference": "ce9f3b5e8e1c50f849fded59b3a1b6bc3562ec29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/ce9f3b5e8e1c50f849fded59b3a1b6bc3562ec29",
+                "reference": "ce9f3b5e8e1c50f849fded59b3a1b6bc3562ec29",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "psr/log": "~1.0"
+            },
+            "conflict": {
+                "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+            },
+            "require-dev": {
+                "symfony/http-kernel": "~2.8|~3.0|~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Debug\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Debug Component",
+            "homepage": "https://symfony.com",
+            "time": "2020-03-23T10:22:40+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -465,6 +733,65 @@
             "time": "2020-02-27T09:26:54+00:00"
         },
         {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
+                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.15-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2020-03-09T19:04:49+00:00"
+        },
+        {
             "name": "symfony/process",
             "version": "v4.4.7",
             "source": {
@@ -512,6 +839,65 @@
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
             "time": "2020-03-27T16:54:36+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v3.4.39",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "e701b47e11749970f63803879c4febb520f07b6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/e701b47e11749970f63803879c4febb520f07b6c",
+                "reference": "e701b47e11749970f63803879c4febb520f07b6c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<3.4"
+            },
+            "require-dev": {
+                "symfony/console": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2020-03-25T12:02:26+00:00"
         }
     ],
     "packages-dev": [
@@ -1980,6 +2366,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "ext-mbstring": "*",
         "ext-simplexml": "*"
     },
     "platform-dev": []
