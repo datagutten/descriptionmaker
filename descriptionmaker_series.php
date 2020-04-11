@@ -88,7 +88,7 @@ try {
 }
 catch (DependencyFailedException|DurationNotFoundException|FileNotFoundException|UploadFailed $e)
 {
-    echo $e->getMessage()."\n";
+    printf("Error uploading or creating snapshots: %s\n%s\n", $e->getMessage(), $e->getTraceAsString());
 }
 
 file_put_contents($descfile=$dir.'.txt',$description); //Write the complete description to a file
