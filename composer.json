@@ -3,12 +3,15 @@
     "description": "Create description pages for TV series or music",
     "type": "library",
     "require": {
+        "ext-mbstring": "*",
         "ext-simplexml": "*",
         "datagutten/audio-metadata": "^3.0",
-        "datagutten/imagehost": "^2.1",
+        "datagutten/imagehost": "dev-master",
+        "datagutten/musicbrainz": "^3.0",
         "datagutten/tidal-tools": "^2.2",
         "datagutten/tvdb": "^3.0",
-        "datagutten/video-tools": "^1.0"
+        "datagutten/video-tools": "^1.0",
+        "orpheusnet/logchecker": "^0.8.6",
     },
     "require-dev": {
         "phpunit/phpunit": "^8.2"
@@ -34,5 +37,6 @@
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "bin": ["descriptionmaker_series.php", "scripts/description_album.php"]
 }
