@@ -3,9 +3,6 @@
 use datagutten\tvdb\tvdb;
 
 require 'vendor/autoload.php';
-require '../imagehost/vendor/autoload.php';
-//require_once '../torrentupload_dev/tvdb/tvdb.php';
-//require_once 'functions_description.php';
 $config = require 'config.php';
 
 $tvdb=new tvdb();
