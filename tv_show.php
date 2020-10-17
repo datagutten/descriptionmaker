@@ -14,27 +14,17 @@ $desc=new description;
 //$imagehost=$desc->imagehost;
 $imagehost = new $config['image_host'];
 
-if(isset($_SERVER['HTTP_USER_AGENT'])) //Check if the script is running in a browser
-{
-	$mode='browser';
-	if(!isset($_GET['fil']))
-		die('Filen det skal lages beskrivelse for må spesifiseres som GET parameter "fil" (descriptionmaker.php?fil=dinfil.mkv)');
-	else
-		$file=$_GET['fil'];
-}
+
+$options = getopt("",array('tvdb:','nomediainfo','nosnapshots','outdir:'));
+if(!isset($argv[1]))
+    die('Filen det skal lages beskrivelse for må spesifiseres på kommandolinjen (php tv_show.php dinfil.mkv');
 else
-{
-	$mode='console';
-	$options = getopt("",array('tvdb:','nomediainfo','nosnapshots','outdir:'));
-	if(!isset($argv[1]))
-		die('Filen det skal lages beskrivelse for må spesifiseres på kommandolinjen (php descriptionmaker.php dinfil.mkv');
-	else
-		$file=$argv[1];
-	if(isset($options['tvdb']))
-		$tvdb_id=$options['tvdb'];
-	end($argv);
-	$file=$argv[key($argv)];
-}
+    $file=$argv[1];
+if(isset($options['tvdb']))
+    $tvdb_id=$options['tvdb'];
+
+end($argv);
+$file=$argv[key($argv)];
 
 if(!file_exists($file))
 	die("Finner ikke filen $file\n");
@@ -183,14 +173,4 @@ else
 	file_put_contents($options['outdir'].'/'.$info['filename'].'.mediainfo',$desc->simplemediainfo($file)); //Write mediainfo to a file
 }
 
-if($mode=='browser') //Display the description in a browser
-{
-	echo '<br>';
-	$showdescription=preg_replace("^\[img\](.*)\[/img\]^U",'<img src="$1" />',$description);
-	$showdescription=preg_replace("^\[pre\](.*)\[/pre\]^U",'<tt><nobr>$1</nobr></tt>',$showdescription);
-	
-	echo nl2br($showdescription);
-	echo "<p><textarea>".$description."</textarea></p>";
-}
-else //Else display it on a console
-	echo $description."\n";
+echo $description."\n";
