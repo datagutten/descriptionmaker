@@ -5,6 +5,7 @@
     "require": {
         "ext-fileinfo": "*",
         "ext-mbstring": "*",
+        "ext-json": "*",
         "ext-simplexml": "*",
         "datagutten/audio-metadata": "^3.0",
         "datagutten/imagehost": "^2.2",

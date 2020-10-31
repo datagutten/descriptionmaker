@@ -2,8 +2,9 @@
 
 namespace datagutten\descriptionMaker;
 
+use datagutten\musicbrainz\exceptions\MusicBrainzErrorException;
 use datagutten\musicbrainz\musicbrainz;
-use datagutten\musicbrainz\exceptions\MusicBrainzException;
+use InvalidArgumentException;
 use SimpleXMLElement;
 
 class MusicBrainzDescription extends musicbrainz
@@ -57,7 +58,7 @@ class MusicBrainzDescription extends musicbrainz
             }
             $disc_key++;
         }
-        print_r($lengths);
+        //print_r($lengths);
         $max_length=max($lengths);
         $track_list='';
         foreach($titles as $track_key=>$title)
@@ -69,14 +70,37 @@ class MusicBrainzDescription extends musicbrainz
         }
         return $track_list;
     }
+
+    /**
+     * @param string $album_id Album ID
+     * @param string $position Art position
+     * @return array
+     * @throws MusicBrainzErrorException HTTP response code not 200
+     */
+    function cover_art(string $album_id, string $position = 'front')
+    {
+        $response = $this->get('https://coverartarchive.org/release/'.$album_id); //, ['Accept'=>'application/json']
+        $images = json_decode($response->body, true);
+        foreach($images['images'] as $image)
+        {
+            if(!isset($image[$position]))
+                throw new InvalidArgumentException('Invalid position, must be front or back');
+            if($image[$position] === true)
+                return $image;
+        }
+        return [];
+    }
+
     /**
      * @param $metadata_or_albumid
      * @param bool $releaseinfo
+     * @param bool $cover_art
      * @return string
-     * @throws MusicBrainzException
+     * @throws MusicBrainzErrorException
      */
-	function build_description($metadata_or_albumid,$releaseinfo=false)
+	function build_description($metadata_or_albumid,$releaseinfo=false, $cover_art = true)
 	{
+
 		if(is_string($metadata_or_albumid))
 			$albumid=$metadata_or_albumid;
 		else
@@ -88,6 +112,14 @@ class MusicBrainzDescription extends musicbrainz
 			$album=$releaseinfo;
 		if(!is_object($album))
 			return false;
+
+        if($cover_art)
+        {
+            $art = $this->cover_art($albumid);
+            $art = sprintf("[url=%s][img]%s[/img][/url]\n", $art['image'], $art['thumbnails'][250]);
+        }
+        else
+            $art = '';
 
 		$track_count=$album->{'release'}->{'medium-list'}->medium->{'track-list'}->attributes()['count'];
 		//$release_group_id=$metadata['MUSICBRAINZ_RELEASEGROUPID'];
@@ -112,13 +144,13 @@ class MusicBrainzDescription extends musicbrainz
 
 		//print_r($album);
         $tracklist = $this->track_list($album);
-		$description=sprintf("%s[url=https://musicbrainz.org/release/%s]MusicBrainz[/url]\n\n%s%sTracks: %d\n\nTrack list:\n[pre]%s[/pre]",
-							 $amazon_link,
-							 $albumid,
-							 $country_text,
-							 $barcode_text,
-							 $track_count,
-							 $tracklist);
-		return $description;
+        return sprintf("%s%s[url=https://musicbrainz.org/release/%s]MusicBrainz[/url]\n\n%s%sTracks: %d\n\nTrack list:\n[pre]%s[/pre]",
+                             $art,
+                             $amazon_link,
+                             $albumid,
+                             $country_text,
+                             $barcode_text,
+                             $track_count,
+                             $tracklist);
 	}
 }
