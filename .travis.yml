@@ -1,0 +1,45 @@
+language: php
+
+matrix:
+  include:
+    - os: windows
+      language: sh
+      before_install:
+        - choco install php --version 7.4
+        - choco install composer
+        - choco install ffmpeg
+        - export PATH="/c/tools/php74:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
+
+    - php: '7.3'
+    - php: '7.4'
+    - php: '7.4'
+      name: 'Prefer lowest'
+      install:
+        - composer install --no-interaction --no-cache
+        - composer update --prefer-lowest --no-cache
+    - php: 'nightly'
+      env: IGNORE_PLATFORM_REQS=true
+  allow_failures:
+    - php: 'nightly'
+
+
+addons:
+  apt:
+    packages:
+      - php-xml
+      - php-mysql
+      - php-gd
+      - php-curl
+
+
+install:
+  - composer install --no-interaction --no-cache
+
+before_script:
+  - vendor/bin/phpunit --version
+
+script:
+  - vendor/bin/phpunit
+
+after_script:
+  - bash <(curl -s https://codecov.io/bash)
