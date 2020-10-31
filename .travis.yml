@@ -19,7 +19,8 @@ matrix:
         - composer install --no-interaction --no-cache
         - composer update --prefer-lowest --no-cache
     - php: 'nightly'
-      env: IGNORE_PLATFORM_REQS=true
+      install:
+        - composer install --no-interaction --ignore-platform-reqs --no-cache
   allow_failures:
     - php: 'nightly'
 
