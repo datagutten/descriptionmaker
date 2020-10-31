@@ -3,6 +3,7 @@
     "description": "Create description pages for TV series or music",
     "type": "library",
     "require": {
+        "ext-fileinfo": "*",
         "ext-mbstring": "*",
         "ext-simplexml": "*",
         "datagutten/audio-metadata": "^3.0",

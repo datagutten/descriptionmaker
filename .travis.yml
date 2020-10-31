@@ -10,6 +10,8 @@ matrix:
         - choco install ffmpeg
         - export PATH="/c/tools/php74:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
         - composer self-update
+        - sed -i s/\;extension=gd2/extension=gd2/ /c/tools/php74/php.ini
+        - sed -i s/\;extension=fileinfo/extension=fileinfo/ /c/tools/php74/php.ini
 
     - php: '7.3'
     - php: '7.4'
