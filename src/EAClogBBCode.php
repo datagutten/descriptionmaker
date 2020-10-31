@@ -12,8 +12,8 @@ class EAClogBBCode
         {
             case 'log2': $tag = 'color'; $value='yellow'; break;
             case 'log3': $tag = 'color'; $value='#0E88C6'; break;
+            case 'log4 log1':
             case 'log4': $tag = 'b'; break;
-            case 'log4 log1': $tag = 'b'; break;
             case 'log5': $tag = 'u'; break;
             case 'good': $tag = 'color'; $value='green'; $tag2 = 'b'; break;
             case 'bad': $tag = 'color';  $value='red'; $tag2='b'; break;
