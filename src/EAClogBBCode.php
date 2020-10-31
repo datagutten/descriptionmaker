@@ -1,7 +1,7 @@
 <?php
 
 
-namespace datagutten\descriptionmaker;
+namespace datagutten\descriptionMaker;
 
 
 class EAClogBBCode

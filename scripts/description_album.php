@@ -1,7 +1,7 @@
 <?Php
 
 use datagutten\AudioMetadata\AudioMetadata;
-use datagutten\descriptionmaker\EAClogBBCode;
+use datagutten\descriptionMaker\EAClogBBCode;
 use datagutten\descriptionMaker\MusicBrainzDescription;
 use datagutten\tools\files\files;
 use OrpheusNET\Logchecker\Logchecker;
