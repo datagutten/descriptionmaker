@@ -18,6 +18,7 @@ matrix:
     - php: '7.4'
       name: 'Prefer lowest'
       install:
+        - composer self-update --2
         - composer update --no-interaction --prefer-lowest --no-cache
     - php: 'nightly'
       install:
