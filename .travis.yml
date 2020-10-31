@@ -18,8 +18,8 @@ matrix:
     - php: '7.4'
       name: 'Prefer lowest'
       install:
-        - composer install --no-interaction --no-cache
-        - composer update --prefer-lowest --no-cache
+        - composer install --no-interaction
+        - composer update --prefer-lowest
     - php: 'nightly'
       install:
         - composer install --no-interaction --ignore-platform-reqs --no-cache
