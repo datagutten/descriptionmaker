@@ -50,25 +50,6 @@ class description
 	}
 
     /**
-     * Create snapshots from video file
-     * @param $file
-     * @param bool $snapshotdir
-     * @return array
-     * @throws DependencyFailedException
-     * @throws FileNotFoundException
-     * @throws DurationNotFoundException
-     */
-	public function snapshots($file,$snapshotdir=false)
-	{
-		$positions=$this->video->snapshotsteps($file,4); //Calcuate snapshot positions
-		if(empty($snapshotdir)) //Create snapshot directory in video folder if other folder is not specified
-			$snapshotdir=dirname($file).'/snapshots';
-		if(!file_exists($snapshotdir))
-			mkdir($snapshotdir,0777,true);
-		return $this->video->snapshots($file,$positions,$snapshotdir);
-	}
-
-    /**
      * Upload snapshots using imagehost class
      * @param array $snapshots
      * @param string $prefix

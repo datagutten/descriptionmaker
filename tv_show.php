@@ -51,7 +51,7 @@ if(!isset($options['nosnapshots']))
 {
 	echo "Creating snapshots\n";
     try {
-        $snapshots = $desc->snapshots($file);
+        $snapshots = utils::snapshots($file);
         echo "Uploading snapshots\n";
         foreach ($snapshots as $key=>$snapshot)
         {

@@ -1,5 +1,6 @@
 <?Php
 
+use datagutten\descriptionMaker\utils;
 use datagutten\image_host\exceptions\UploadFailed;
 use datagutten\tvdb;
 use datagutten\video_tools\exceptions\DurationNotFoundException;
@@ -82,7 +83,7 @@ foreach($tvdb_series['Episode'] as $episode)
 echo "Snapshots bbcode\n";
 
 try {
-    $snapshots = $desc->snapshots($file);
+    $snapshots = utils::snapshots($file);
     $snapshotlinks = $desc->upload_snapshots($snapshots, basename($file));
     $description .= $desc->snapshots_bbcode($snapshotlinks);
 }
