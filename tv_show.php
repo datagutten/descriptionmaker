@@ -1,7 +1,6 @@
 <?Php
 
 use datagutten\image_host\exceptions\UploadFailed;
-use datagutten\image_host\image_host;
 use datagutten\tools\files\files;
 use datagutten\tvdb\tvdb;
 use datagutten\video_tools\exceptions as video_exceptions;
@@ -12,8 +11,6 @@ $config = require 'config.php';
 $tvdb=new tvdb();
 
 $desc=new description;
-//$imagehost=$desc->imagehost;/** @var image_host $imagehost */
-$imagehost = new $config['image_host'];
 
 
 $options = getopt("",array('tvdb:','nomediainfo','nosnapshots','outdir:'));
@@ -58,7 +55,7 @@ if(!isset($options['nosnapshots']))
         echo "Uploading snapshots\n";
         foreach ($snapshots as $key=>$snapshot)
         {
-            $snapshot_links[$key]=$imagehost->upload($snapshot);
+            $snapshot_links[$key]=$desc->image_host->upload($snapshot);
         }
     } catch (DependencyFailedException|FileNotFoundException|video_exceptions\DurationNotFoundException $e) {
         echo "Could not create snapshots:\n";

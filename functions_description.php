@@ -20,7 +20,7 @@ class description
     /**
      * @var image_host
      */
-	public $imagehost;
+	public $image_host;
 	public $error;
 
 	function __construct()
@@ -28,7 +28,7 @@ class description
 		$config = require 'config.php';
 		$this->dependcheck=new dependcheck;
 		$this->video=new video;
-		$this->imagehost=new $config['image_host'];
+		$this->image_host=new $config['image_host'];
 	}
 
     /**
@@ -89,7 +89,7 @@ class description
                 rename($snapshot, $newfile);
                 $snapshot = $newfile;
             }
-			$upload=$this->imagehost->upload($snapshot);
+			$upload=$this->image_host->upload($snapshot);
 			$snapshotlinks[$key]=$upload;
 		}
 		return $snapshotlinks;
@@ -104,8 +104,8 @@ class description
 		$bbcode='';
 		foreach ($snapshotlinks as $screenshot) //Lag screenshots
 		{
-			if(method_exists($this->imagehost,'bbcode'))
-				$bbcode.=$this->imagehost->bbcode($screenshot);
+			if(method_exists($this->image_host,'bbcode'))
+				$bbcode.=$this->image_host->bbcode($screenshot);
 			else
 				$bbcode.=sprintf('[img]%s[/img]',$screenshot);
 		}
