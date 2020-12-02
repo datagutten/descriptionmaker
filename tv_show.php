@@ -1,6 +1,10 @@
 <?Php
 
+use datagutten\image_host\exceptions\UploadFailed;
+use datagutten\image_host\image_host;
+use datagutten\tools\files\files;
 use datagutten\tvdb\tvdb;
+use datagutten\video_tools\exceptions as video_exceptions;
 
 require 'vendor/autoload.php';
 $config = require 'config.php';
@@ -8,7 +12,7 @@ $config = require 'config.php';
 $tvdb=new tvdb();
 
 $desc=new description;
-//$imagehost=$desc->imagehost;
+//$imagehost=$desc->imagehost;/** @var image_host $imagehost */
 $imagehost = new $config['image_host'];
 
 
@@ -49,18 +53,21 @@ $description='';
 if(!isset($options['nosnapshots']))
 {
 	echo "Creating snapshots\n";
-	$snapshots=$desc->snapshots($file);
-
-	if($snapshots!==false)
-	{
-		echo "Uploading snapshots\n";
-		foreach ($snapshots as $key=>$snapshot)
-		{
-			$snapshotlinks[$key]=$imagehost->upload($snapshot);
-		}
-	}
-	else
-		echo "Could not create snapshots\n";
+    try {
+        $snapshots = $desc->snapshots($file);
+        echo "Uploading snapshots\n";
+        foreach ($snapshots as $key=>$snapshot)
+        {
+            $snapshot_links[$key]=$imagehost->upload($snapshot);
+        }
+    } catch (DependencyFailedException|FileNotFoundException|video_exceptions\DurationNotFoundException $e) {
+        echo "Could not create snapshots:\n";
+        echo $e->getMessage()."\n";
+    } catch (UploadFailed $e)
+    {
+        echo "Failed to upload snapshots:\n";
+        echo $e->getMessage()."\n";
+    }
 }
 if(!empty($tvdb_id))
 {
