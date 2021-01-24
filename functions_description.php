@@ -148,11 +148,12 @@ class description
      * @throws DependencyFailedException
      * @throws FileNotFoundException
      */
-	public function simplemediainfo($file)
+	public static function simplemediainfo(string $file): string
 	{
+	    $dependcheck = new dependcheck();
         if(!file_exists($file))
             throw new FileNotFoundException($file);
-        $this->dependcheck->depend('mediainfo');
+        $dependcheck->depend('mediainfo');
 
         $process = new Process(array('mediainfo', $file));
         $process->run();
