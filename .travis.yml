@@ -5,17 +5,16 @@ matrix:
     - os: windows
       language: sh
       before_install:
-        - choco install php --version 7.4
+        - choco install php --version 8.0
         - choco install composer
         - choco install ffmpeg
-        - export PATH="/c/tools/php74:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
+        - export PATH="/c/tools/php80:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
         - composer self-update
-        - sed -i s/\;extension=gd2/extension=gd2/ /c/tools/php74/php.ini
-        - sed -i s/\;extension=fileinfo/extension=fileinfo/ /c/tools/php74/php.ini
+        - sed -i s/\;extension=gd2/extension=gd2/ /c/tools/php80/php.ini
+        - sed -i s/\;extension=fileinfo/extension=fileinfo/ /c/tools/php80/php.ini
 
-    - php: '7.3'
-    - php: '7.4'
-    - php: '7.4'
+    - php: '8.0'
+    - php: '8.0'
       name: 'Prefer lowest'
       install:
         - composer self-update --2
@@ -26,6 +25,9 @@ matrix:
   allow_failures:
     - php: 'nightly'
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
 
 addons:
   apt:
