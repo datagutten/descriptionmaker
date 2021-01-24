@@ -3,15 +3,7 @@
 
 use datagutten\tools\files\files;
 
-foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file)
-{
-    if (file_exists($file))
-    {
-        /** @noinspection PhpIncludeInspection */
-        require $file;
-        break;
-    }
-}
+require __DIR__.'/loader.php';
 
 $tools = new description();
 $desc = new description;
