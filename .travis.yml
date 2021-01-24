@@ -17,17 +17,18 @@ matrix:
     - php: '8.0'
       name: 'Prefer lowest'
       install:
-        - composer self-update --2
-        - composer update --no-interaction --prefer-lowest --no-cache
+        - composer update --no-interaction --prefer-lowest
     - php: 'nightly'
-      install:
-        - composer install --no-interaction --ignore-platform-reqs --no-cache
   allow_failures:
     - php: 'nightly'
 
 env:
   global:
     - XDEBUG_MODE=coverage
+
+cache:
+  directories:
+    - $HOME/.cache/composer/files
 
 addons:
   apt:
@@ -39,7 +40,7 @@ addons:
 
 
 install:
-  - composer install --no-interaction --no-cache
+  - composer install --no-interaction
 
 before_script:
   - vendor/bin/phpunit --version
