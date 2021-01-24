@@ -1,4 +1,5 @@
-<?Php
+#!/usr/bin/php
+<?php
 
 use datagutten\AudioMetadata\AudioMetadata;
 use datagutten\descriptionMaker\EAClogBBCode;
