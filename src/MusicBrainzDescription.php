@@ -3,6 +3,7 @@
 namespace datagutten\descriptionMaker;
 
 use datagutten\musicbrainz\exceptions\MusicBrainzErrorException;
+use datagutten\musicbrainz\exceptions\MusicBrainzException;
 use datagutten\musicbrainz\musicbrainz;
 use InvalidArgumentException;
 use SimpleXMLElement;
@@ -75,11 +76,17 @@ class MusicBrainzDescription extends musicbrainz
      * @param string $album_id Album ID
      * @param string $position Art position
      * @return array
-     * @throws MusicBrainzErrorException HTTP response code not 200
      */
     function cover_art(string $album_id, string $position = 'front')
     {
-        $response = $this->get('https://coverartarchive.org/release/'.$album_id); //, ['Accept'=>'application/json']
+        try
+        {
+            $response = $this->get('https://coverartarchive.org/release/' . $album_id); //, ['Accept'=>'application/json']
+        }
+        catch (MusicBrainzException $e)
+        {
+            return [];
+        }
         $images = json_decode($response->body, true);
         foreach($images['images'] as $image)
         {
@@ -115,11 +122,10 @@ class MusicBrainzDescription extends musicbrainz
 
         if($cover_art)
         {
-            $art = $this->cover_art($albumid);
-            $art = sprintf("[url=%s][img]%s[/img][/url]\n", $art['image'], $art['thumbnails'][250]);
+            $mb_art = $this->cover_art($albumid);
+            if(!empty($mb_art))
+                $art = sprintf("[url=%s][img]%s[/img][/url]\n", $mb_art['image'], $mb_art['thumbnails'][250]);
         }
-        else
-            $art = '';
 
 		$track_count=$album->{'release'}->{'medium-list'}->medium->{'track-list'}->attributes()['count'];
 		//$release_group_id=$metadata['MUSICBRAINZ_RELEASEGROUPID'];
@@ -145,7 +151,7 @@ class MusicBrainzDescription extends musicbrainz
 		//print_r($album);
         $tracklist = $this->track_list($album);
         return sprintf("%s%s[url=https://musicbrainz.org/release/%s]MusicBrainz[/url]\n\n%s%sTracks: %d\n\nTrack list:\n[pre]%s[/pre]",
-                             $art,
+                             $art ?? '',
                              $amazon_link,
                              $albumid,
                              $country_text,
