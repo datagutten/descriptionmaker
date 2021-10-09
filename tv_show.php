@@ -1,7 +1,9 @@
 <?Php
 
+use datagutten\descriptionMaker\utils;
 use datagutten\image_host\exceptions\UploadFailed;
 use datagutten\tools\files\files;
+use datagutten\tvdb\exceptions as tvdb_exceptions;
 use datagutten\tvdb\tvdb;
 use datagutten\video_tools\exceptions as video_exceptions;
 
@@ -12,14 +14,18 @@ $tvdb=new tvdb();
 
 $desc=new description;
 
-
-$options = getopt("",array('tvdb:','nomediainfo','nosnapshots','outdir:'));
+$options = getopt("",array('tvdb:','mediainfo','nosnapshots','outdir:', 'tvdb_id:','tvdb_lang:'));
 if(!isset($argv[1]))
     die('Filen det skal lages beskrivelse for må spesifiseres på kommandolinjen (php tv_show.php dinfil.mkv');
 else
     $file=$argv[1];
 if(isset($options['tvdb']))
     $tvdb_id=$options['tvdb'];
+
+if(empty($options['tvdb_lang']))
+    $tvdb_lang=null;
+else
+    $tvdb_lang = $options['tvdb_lang'];
 
 end($argv);
 $file=$argv[key($argv)];
@@ -150,9 +156,7 @@ if(isset($episodedata) && $episodedata!==false) //The episode is found on TheTVD
 
 if(file_exists($info['dirname'].'/common.nfo')) //Check if there is a file with common information for the series
 	$description.="\n\n".file_get_contents($info['dirname'].'/common.nfo');
-
-
-if(!isset($options['nomediainfo']) && ($mediainfo=$desc->mediainfo($file))!==false)
+if(isset($options['mediainfo']) && ($mediainfo=$desc->mediainfo($file))!==false)
 	$description.="\nMediainfo:\n".'[pre]'.$mediainfo.'[/pre]';
 
 else
