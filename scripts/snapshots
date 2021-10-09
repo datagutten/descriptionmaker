@@ -1,0 +1,21 @@
+#!/usr/bin/php
+<?php
+
+use datagutten\descriptionMaker\utils;
+use datagutten\image_host\exceptions\UploadFailed;
+use datagutten\video_tools\exceptions\DurationNotFoundException;
+
+require __DIR__ . '/loader.php';
+
+$desc = new description;
+
+try
+{
+    $snapshots = utils::snapshots($argv[1]);
+    $links = $desc->upload_snapshots($snapshots, basename($argv[1]));
+    echo $desc->snapshots_bbcode($links) . "\n";
+}
+catch (DependencyFailedException | DurationNotFoundException | FileNotFoundException | UploadFailed $e)
+{
+    printf("Error uploading or creating snapshots: %s\n%s\n", $e->getMessage(), $e->getTraceAsString());
+}

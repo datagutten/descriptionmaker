@@ -40,5 +40,10 @@
     "config": {
         "sort-packages": true
     },
-    "bin": ["descriptionmaker_series.php", "scripts/description_album", "scripts/mediainfo"]
+    "bin": [
+        "descriptionmaker_series.php",
+        "scripts/description_album",
+        "scripts/mediainfo",
+        "scripts/snapshots"
+    ]
 }
