@@ -12,7 +12,7 @@ $config = require 'config.php';
 
 $tvdb=new tvdb();
 
-$desc=new description;
+$desc=new description($config);
 
 $options = getopt("",array('tvdb:','mediainfo','nosnapshots','outdir:', 'tvdb_id:','tvdb_lang:'));
 if(!isset($argv[1]))

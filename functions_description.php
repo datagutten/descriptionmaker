@@ -23,12 +23,16 @@ class description
 	public $image_host;
 	public $error;
 
-	function __construct($image_host = image_host\cubeupload::class)
-	{
-		$this->dependcheck=new dependcheck;
-		$this->video=new video;
-        $this->image_host = new $image_host;
-	}
+    function __construct($config)
+    {
+        if (empty($config['imagehost']['host']))
+            $image_host = image_host\cubeupload::class;
+        else
+            $image_host = $config['imagehost']['host'];
+        $this->dependcheck = new dependcheck;
+        $this->video = new video;
+        $this->image_host = new $image_host($config['imagehost']);
+    }
 
     /**
      * Parse series information from release name
@@ -37,12 +41,21 @@ class description
      */
 	public function serieinfo($release)
 	{
+        preg_match('/.*?(?:S([0-9]+))?(?:EP?([0-9]+))?/', $release, $matches);
+
 		if (preg_match('^(.+?)S*([0-9]*)EP*([0-9]+)^i',$release,$serieinfo)) //Try to get season and episode info from the release name
 		{
 			$serieinfo[1]=trim(str_replace('.',' ',$serieinfo[1])); //trim serienavn og erstatt . med mellomrom
 			if($serieinfo[2]=='') //Hvis det ikke er oppgitt sesong, sett sesong til 1
 				$serieinfo[2]=1;
 		}
+        elseif(preg_match('/(.+)S([0-9]+)/', $release,$serieinfo))
+        {
+            $series = $serieinfo[1];
+            $season = (int)$serieinfo[2];
+            $episode = 0;
+            return;
+        }
 		else
 			$serieinfo=false;
 		return $serieinfo; //1=serienavn, 2=sesong
