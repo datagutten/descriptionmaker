@@ -1,7 +1,7 @@
 <?Php
 
 use datagutten\image_host\exceptions\UploadFailed;
-use datagutten\image_host\image_host;
+use datagutten\image_host;
 use datagutten\video_tools\exceptions\DurationNotFoundException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -18,17 +18,16 @@ class description
      */
 	private $video;
     /**
-     * @var image_host
+     * @var image_host\image_host
      */
 	public $image_host;
 	public $error;
 
-	function __construct()
+	function __construct($image_host = image_host\cubeupload::class)
 	{
-		$config = require 'config.php';
 		$this->dependcheck=new dependcheck;
 		$this->video=new video;
-		$this->image_host=new $config['image_host'];
+        $this->image_host = new $image_host;
 	}
 
     /**
