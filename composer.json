@@ -8,7 +8,7 @@
         "ext-json": "*",
         "ext-simplexml": "*",
         "datagutten/audio-metadata": "^3.0",
-        "datagutten/imagehost": "^2.2",
+        "datagutten/imagehost": "^3.0",
         "datagutten/musicbrainz": "^3.0",
         "datagutten/tidal-tools": "^2.2",
         "datagutten/tvdb": "^3.0",
