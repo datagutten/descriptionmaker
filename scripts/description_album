@@ -23,25 +23,23 @@ catch (datagutten\musicbrainz\exceptions\MusicBrainzException $e) {
     die('Error from MusicBrainz: '.$e->getMessage());
 }
 
-if($desc===false)
-	echo $mb->error."\n";
-else
+$info=pathinfo($argv[1]);
+$file_description = $info['dirname'].'/'.$info['filename'].'.txt';
+try
 {
-    $info=pathinfo($argv[1]);
-    $file_description = $info['dirname'].'/'.$info['filename'].'.txt';
     $file_log = files::first_file($argv[1], ['log']);
-    if(!empty($file_log))
-    {
-        $logchecker = new Logchecker();
-        $logchecker->new_file($file_log);
-        list($score, $details, $checksum_state, $log_text) = $logchecker->parse();
+    $logchecker = new Logchecker();
+    $logchecker->new_file($file_log);
+    list($score, $details, $checksum_state, $log_text) = $logchecker->parse();
 
-        $log_bbcode = EAClogBBCode::rewrite($log_text);
-        $desc .= sprintf("\n\nLog score: %d\n[spoiler]%s[/spoiler]", $score, $log_bbcode);
-
-    }
-
-    file_put_contents($file_description,$desc); //Write the complete description to a file
-    printf("Description saved as %s\n", $file_description);
+    $log_bbcode = EAClogBBCode::rewrite($log_text);
+    $desc .= sprintf("\n\nLog score: %d\n[spoiler]%s[/spoiler]", $score, $log_bbcode);
 }
+catch (InvalidArgumentException $e)
+{
+    echo "No log found\n";
+}
+
+file_put_contents($file_description,$desc); //Write the complete description to a file
+printf("Description saved as %s\n", $file_description);
 
