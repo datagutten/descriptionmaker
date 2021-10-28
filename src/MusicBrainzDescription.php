@@ -76,6 +76,7 @@ class MusicBrainzDescription extends musicbrainz
      * @param string $album_id Album ID
      * @param string $position Art position
      * @return array
+     * @throws MusicBrainzException
      */
     function cover_art(string $album_id, string $position = 'front')
     {
@@ -87,6 +88,12 @@ class MusicBrainzDescription extends musicbrainz
         {
             return [];
         }
+
+        if($response->status_code == 404)
+            return [];
+        elseif(!$response->success)
+            throw new MusicBrainzException('Error fetching cover art');
+
         $images = json_decode($response->body, true);
         foreach($images['images'] as $image)
         {
