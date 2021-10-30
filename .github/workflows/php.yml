@@ -44,7 +44,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
-          extensions: libxml, gd
+          extensions: libxml, gd, fileinfo
 
       - name: Update dependencies
         if:  ${{ matrix.experimental == false && matrix.php != 'latest' }}
@@ -73,7 +73,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           coverage: xdebug
-          extensions: libxml, gd
+          extensions: libxml, gd, fileinfo
 
       - name: Install dependencies
         run: composer update --prefer-lowest --no-progress
