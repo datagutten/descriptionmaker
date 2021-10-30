@@ -53,7 +53,7 @@ class TVSeriesUtils
                 $series = $matches[1];
             else
                 $series = $release;
-            $season = 0;
+            $season = 1;
             $episode = 0;
         }
         $series = trim(str_replace('.', ' ', $series)); //trim serienavn og erstatt . med mellomrom
