@@ -46,9 +46,13 @@ jobs:
           coverage: xdebug
           extensions: libxml, gd
 
+      - name: Update dependencies
+        if:  ${{ matrix.experimental == false && matrix.php != 'latest' }}
+        run: composer update --prefer-dist --no-progress
+
       - name: Install dependencies
-        if:  ${{ matrix.experimental == false }}
-        run: composer install --prefer-dist --no-progress
+        if:  ${{ matrix.php == 'latest' }}
+        run: composer update --prefer-dist --no-progress
 
       - name: Install dependencies
         if:  ${{ matrix.experimental == true }}
