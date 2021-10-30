@@ -4,6 +4,7 @@
 namespace datagutten\descriptionMaker;
 
 
+use datagutten\tools\files\files;
 use datagutten\video_tools\exceptions\DurationNotFoundException;
 use DependencyFailedException;
 use FileNotFoundException;
@@ -20,6 +21,15 @@ class utils
     public static function seconds_to_time($seconds)
     {
         return sprintf('%02d:%02d',floor(($seconds/60) % 60),$seconds % 60);
+    }
+
+    public static function file_path(string $source, string $extension): string
+    {
+        if (!file_exists($source))
+            throw new FileNotFoundException($source);
+        $path_info = pathinfo($source);
+
+        return files::path_join($path_info['dirname'], $path_info['filename'] . '.' . $extension);
     }
 
     /**

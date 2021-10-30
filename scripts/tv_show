@@ -1,0 +1,62 @@
+#!/usr/bin/php
+<?php
+
+use datagutten\descriptionMaker;
+use datagutten\tools\files\files;
+use datagutten\tvdb;
+
+require __DIR__ . '/loader.php';
+$config = descriptionmaker_config();
+$desc = new description($config);
+$tvdb_scrape = new descriptionMaker\TVDBScrape();
+$tvdb_desc = new descriptionMaker\TVDB();
+
+$pathinfo = pathinfo($argv[1]);
+$info = descriptionMaker\TVSeriesUtils::parse_release($pathinfo['filename']);
+if (empty($info))
+    die("Unable to parse series name\n");
+
+try
+{
+    $tvdb = new tvdb\tvdb($config['tvdb']);
+    $search = $tvdb->series_search($info['series']);
+    $banner = $tvdb->banner($search['id']);
+}
+catch (tvdb\exceptions\tvdbException $e)
+{
+    die('Error from TVDB API: ' . $e->getMessage() . "\n");
+}
+
+$description = '';
+
+if (!empty($banner)) //Series banner
+    $description .= descriptionMaker\BBCode::image($banner, sprintf('https://www.thetvdb.com/series/%s', $search['slug'])) . "\n";
+if (!empty($search['overview'])) //Series overview
+    $description .= $search['overview'] . "\n\n";
+
+if (empty($info['episode'])) //Complete season
+    $description .= $tvdb_desc->episode_list($search['slug'], $info['season']);
+else //Single episode
+    $description .= $tvdb_desc->episode($search['slug'], $info['season'], $info['episode']) . "\n\n";
+
+
+if (is_file($argv[1]))
+    $video_file = realpath($argv[1]);
+elseif (is_dir($argv[1]))
+    $video_file = files::first_file($argv[1], array('mkv', 'ts', 'mp4')); //TODO: Check mime type
+else
+    die("Video file not found\n");
+
+try
+{
+    $folder = files::path_join($pathinfo['dirname'], 'snapshots');
+    $description .= $desc->snapshots->snapshots($video_file, $folder);
+}
+catch (descriptionMaker\exceptions\SnapshotException $e)
+{
+    printf("Error uploading or creating snapshots: %s\n%s\n", $e->getMessage(), $e->getTraceAsString());
+}
+
+$desc_file = files::path_join($pathinfo['dirname'], $pathinfo['filename'] . '.txt');
+file_put_contents($desc_file, $description);
+printf("Description saved as %s\n", $desc_file);
