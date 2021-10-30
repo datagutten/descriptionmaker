@@ -24,20 +24,20 @@ class utils
 
     /**
      * Create snapshots from video file
-     * @param $file
-     * @param bool $snapshotdir
-     * @return array
-     * @throws DependencyFailedException
-     * @throws FileNotFoundException
-     * @throws DurationNotFoundException
+     * @param string $file Video file
+     * @param string|null $snapshot_folder Folder to save snapshots
+     * @return array Snapshot files
+     * @throws DependencyFailedException No tool available to make snapshots
+     * @throws FileNotFoundException Video file not found
+     * @throws DurationNotFoundException Unable to get video file duration
      */
-    public static function snapshots($file, $snapshotdir = false)
+    public static function snapshots(string $file, string $snapshot_folder = null): array
     {
         $positions = video::snapshotsteps($file, 4); //Calcuate snapshot positions
-        if (empty($snapshotdir)) //Create snapshot directory in video folder if other folder is not specified
-            $snapshotdir = dirname($file) . '/snapshots';
-        if (!file_exists($snapshotdir))
-            mkdir($snapshotdir, 0777, true);
-        return video::snapshots($file, $positions, $snapshotdir);
+        if (empty($snapshot_folder)) //Create snapshot directory in video folder if other folder is not specified
+            $snapshot_folder = dirname($file) . '/snapshots';
+        if (!file_exists($snapshot_folder))
+            mkdir($snapshot_folder, 0777, true);
+        return video::snapshots($file, $positions, $snapshot_folder);
     }
 }
