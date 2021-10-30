@@ -19,12 +19,6 @@
     "require-dev": {
         "phpunit/phpunit": "^8.2|^9"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/datagutten/Requests.git"
-        }
-    ],
     "license": "GPL-3.0-or-later",
     "authors": [
         {
