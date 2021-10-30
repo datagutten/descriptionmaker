@@ -11,6 +11,7 @@
         "datagutten/imagehost": "^3.0",
         "datagutten/musicbrainz": "^3.0",
         "datagutten/tidal-tools": "^2.2",
+        "datagutten/tools": "^1.8",
         "datagutten/tvdb": "^3.0",
         "datagutten/video-tools": "^1.0",
         "orpheusnet/logchecker": "^0.8.6",
