@@ -2,7 +2,6 @@
 
 use datagutten\descriptionMaker\Snapshots;
 use datagutten\image_host;
-use datagutten\tvdb\tvdb;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -40,35 +39,6 @@ class description
         $this->dependcheck = new dependcheck;
         $this->video = new video;
     }
-
-    /**
-     * Parse series information from release name
-     * @param $release
-     * @return array|bool Return false on failure
-     */
-	public function serieinfo($release)
-	{
-        preg_match('/.*?(?:S([0-9]+))?(?:EP?([0-9]+))?/', $release, $matches);
-
-		if (preg_match('^(.+?)S*([0-9]*)EP*([0-9]+)^i',$release,$serieinfo)) //Try to get season and episode info from the release name
-		{
-			$serieinfo[1]=trim(str_replace('.',' ',$serieinfo[1])); //trim serienavn og erstatt . med mellomrom
-			if($serieinfo[2]=='') //Hvis det ikke er oppgitt sesong, sett sesong til 1
-				$serieinfo[2]=1;
-		}
-        elseif(preg_match('/(.+)S([0-9]+)/', $release,$serieinfo))
-        {
-            $series = $serieinfo[1];
-            $season = (int)$serieinfo[2];
-            $episode = 0;
-            return;
-        }
-		else
-			$serieinfo=false;
-		return $serieinfo; //1=serienavn, 2=sesong
-	}
-
-
 
     /**
      * @param string $file
@@ -143,26 +113,4 @@ class description
 		$info=preg_replace("/Unique ID.+\n/",'',$info);
 		return $info;
 	}
-
-    /**
-     * Get banner from TVDB and format with tags
-     * @param array $series
-     * @param bool $alternate_name
-     * @return string
-     */
-    public function tvdb_banner($series,$alternate_name=false)
-    {
-        if(!isset($series['Series']))
-            throw new InvalidArgumentException('Missing key "Series"');
-
-        $episodelink=tvdb::series_link($series['Series']['id']);
-
-        if(!empty($series['Series']['banner']))
-        {
-            $banner_url = 'https://artworks.thetvdb.com/banners/'.$series['Series']['banner'];
-            return '[url='.$episodelink.'][img]'.$banner_url.'[/img][/url]';
-        }
-        else
-            return sprintf('[url=%s][b]%s[/b][/url]',$episodelink,($alternate_name!==false ? $alternate_name : $series['Series']['SeriesName'])); //In case the series is not found or don't have a banner, use the series name as banner
-    }
 }
