@@ -1,11 +1,10 @@
 <?Php
 
-use datagutten\image_host\exceptions\UploadFailed;
+use datagutten\descriptionMaker\Snapshots;
 use datagutten\image_host;
-use datagutten\video_tools\exceptions\DurationNotFoundException;
+use datagutten\tvdb\tvdb;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use datagutten\tvdb\tvdb;
 
 class description
 {
@@ -22,16 +21,24 @@ class description
      */
 	public $image_host;
 	public $error;
+    /**
+     * @var Snapshots
+     */
+    public $snapshots;
 
     function __construct($config)
     {
-        if (empty($config['imagehost']['host']))
-            $image_host = image_host\cubeupload::class;
-        else
-            $image_host = $config['imagehost']['host'];
+        if(!empty($config['imagehost']))
+        {
+            if (empty($config['imagehost']['host']))
+                $image_host = image_host\cubeupload::class;
+            else
+                $image_host = $config['imagehost']['host'];
+            $this->image_host = new $image_host($config['imagehost']);
+            $this->snapshots = new Snapshots($this->image_host);
+        }
         $this->dependcheck = new dependcheck;
         $this->video = new video;
-        $this->image_host = new $image_host($config['imagehost']);
     }
 
     /**
@@ -61,49 +68,7 @@ class description
 		return $serieinfo; //1=serienavn, 2=sesong
 	}
 
-    /**
-     * Upload snapshots using imagehost class
-     * @param array $snapshots
-     * @param string $prefix
-     * @return array
-     * @throws UploadFailed Image upload failed
-     */
-	function upload_snapshots($snapshots, $prefix = '')
-	{
-		if(empty($snapshots))
-			throw new InvalidArgumentException('Snapshots empty');
-		$snapshotlinks = [];
-		foreach ($snapshots as $key=>$snapshot)
-		{
-		    if(!empty($prefix))
-            {
-                $pathinfo = pathinfo($snapshot);
-                $newfile = sprintf('%s/%s_%s.%s', $pathinfo['dirname'], $prefix, $pathinfo['filename'], $pathinfo['extension']);
-                rename($snapshot, $newfile);
-                $snapshot = $newfile;
-            }
-			$upload=$this->image_host->upload($snapshot);
-			$snapshotlinks[$key]=$upload;
-		}
-		return $snapshotlinks;
-	}
 
-    /**
-     * @param array $snapshotlinks
-     * @return string
-     */
-	function snapshots_bbcode($snapshotlinks)
-	{
-		$bbcode='';
-		foreach ($snapshotlinks as $screenshot) //Lag screenshots
-		{
-			if(method_exists($this->image_host,'bbcode'))
-				$bbcode.=$this->image_host->bbcode($screenshot);
-			else
-				$bbcode.=sprintf('[img]%s[/img]',$screenshot);
-		}
-		return $bbcode;
-	}
 
     /**
      * @param string $file

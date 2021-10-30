@@ -33,7 +33,7 @@ class utils
      */
     public static function snapshots(string $file, string $snapshot_folder = null): array
     {
-        $positions = video::snapshotsteps($file, 4); //Calcuate snapshot positions
+        $positions = video::snapshotsteps($file, 4); //Calculate snapshot positions
         if (empty($snapshot_folder)) //Create snapshot directory in video folder if other folder is not specified
             $snapshot_folder = dirname($file) . '/snapshots';
         if (!file_exists($snapshot_folder))
