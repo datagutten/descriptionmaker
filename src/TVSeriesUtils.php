@@ -46,8 +46,16 @@ class TVSeriesUtils
             $season = (int)$matches[2];
             $episode = 0;
         }
-        else
-            return [];
+        else //No season and episode, try to strip quality to get series name
+        {
+            preg_match('#(.+?)(?:[\s.][0-9]{3,4}[ip]|PAL|[A-Z]DTV|WEB-DL)#', $release, $matches);
+            if (!empty($matches))
+                $series = $matches[1];
+            else
+                $series = $release;
+            $season = 0;
+            $episode = 0;
+        }
         $series = trim(str_replace('.', ' ', $series)); //trim serienavn og erstatt . med mellomrom
         return ['series' => $series, 'season' => $season, 'episode' => $episode];
     }
