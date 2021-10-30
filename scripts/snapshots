@@ -7,7 +7,7 @@ use datagutten\video_tools\exceptions\DurationNotFoundException;
 
 require __DIR__ . '/loader.php';
 
-$desc = new description;
+$desc = new description(descriptionmaker_config());
 
 try
 {

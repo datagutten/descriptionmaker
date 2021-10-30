@@ -35,7 +35,10 @@
         "classmap": ["functions_description.php"],
         "psr-4": {
             "datagutten\\descriptionMaker\\": "src"
-        }
+        },
+        "files": [
+            "load_config.php"
+        ]
     },
     "config": {
         "sort-packages": true
