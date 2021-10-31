@@ -37,12 +37,16 @@
         ]
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "preferred-install": "source"
     },
     "bin": [
         "scripts/description_album",
         "scripts/mediainfo",
         "scripts/snapshots",
         "scripts/tv_show"
-    ]
+    ],
+    "extra": {
+        "enable-patching": true
+    }
 }
