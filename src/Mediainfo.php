@@ -13,7 +13,7 @@ class Mediainfo
 	/**
 	 * @throws DependencyFailedException
 	 */
-	public static function dependcheck()
+	protected static function dependcheck()
 	{
 		$dependcheck = new dependcheck();
 		$dependcheck->depend('mediainfo');
