@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e26904cea2e728540b7628c13f0c9cf7",
+    "content-hash": "af4a51a3a0d9d8d6651fb43769b7f5d9",
     "packages": [
         {
             "name": "datagutten/audio-metadata",
@@ -200,32 +200,34 @@
         },
         {
             "name": "datagutten/tvdb",
-            "version": "v3.4.1",
+            "version": "dev-scrape",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/tvdb.git",
-                "reference": "ccfa373ed9acfacfb95c0743b9dd9ba86d1cd353"
+                "reference": "de53b813ec5f9fa128f59d93ee108329741987b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/tvdb/zipball/ccfa373ed9acfacfb95c0743b9dd9ba86d1cd353",
-                "reference": "ccfa373ed9acfacfb95c0743b9dd9ba86d1cd353",
+                "url": "https://api.github.com/repos/datagutten/tvdb/zipball/de53b813ec5f9fa128f59d93ee108329741987b3",
+                "reference": "de53b813ec5f9fa128f59d93ee108329741987b3",
                 "shasum": ""
             },
             "require": {
+                "datagutten/video-tools": "dev-master",
+                "ext-dom": "*",
                 "ext-json": "*",
-                "php": ">=7.1",
-                "rmccue/requests": "^1.7|dev-multipart-form-data@dev|^2.0",
+                "php": "^7.4|^8.0",
+                "rmccue/requests": "^2.0",
                 "symfony/filesystem": "^4|^5"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5|^8.4|^9"
+                "phpunit/phpunit": "^9"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "datagutten\\tvdb\\": "src",
-                    "datagutten\\tvdb\\tests\\": "tests"
+                    "datagutten\\tvdb_tests\\": "tests"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -238,37 +240,38 @@
                     "email": "datagutten@datagutten.net"
                 }
             ],
-            "description": "A class for working with the TVDB API v2",
+            "description": "A class to scrape data from TVDB",
             "support": {
                 "issues": "https://github.com/datagutten/tvdb/issues",
-                "source": "https://github.com/datagutten/tvdb/tree/v3.4.1"
+                "source": "https://github.com/datagutten/tvdb/tree/scrape"
             },
-            "time": "2021-11-27T15:40:17+00:00"
+            "time": "2021-12-26T15:11:03+00:00"
         },
         {
             "name": "datagutten/video-tools",
-            "version": "v2.4.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/video-tools.git",
-                "reference": "81ee52a75a81aa40a9c5d5a2edd3ede3663a452c"
+                "reference": "2b2e5b39bee1ce9a102e3db54978e80b01c67a66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/video-tools/zipball/81ee52a75a81aa40a9c5d5a2edd3ede3663a452c",
-                "reference": "81ee52a75a81aa40a9c5d5a2edd3ede3663a452c",
+                "url": "https://api.github.com/repos/datagutten/video-tools/zipball/2b2e5b39bee1ce9a102e3db54978e80b01c67a66",
+                "reference": "2b2e5b39bee1ce9a102e3db54978e80b01c67a66",
                 "shasum": ""
             },
             "require": {
                 "datagutten/tools": "^1.8",
                 "ext-simplexml": "*",
-                "php": ">=7.1",
+                "php": ">=7.4",
                 "symfony/process": "^4|^5"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5|^8|^9",
+                "phpunit/phpunit": "^9",
                 "symfony/filesystem": "^4.3|^5"
             },
+            "default-branch": true,
             "bin": [
                 "scripts/ttml_to_srt",
                 "scripts/vtt_to_srt",
@@ -293,9 +296,9 @@
             "description": "A collection of tools for working with video files",
             "support": {
                 "issues": "https://github.com/datagutten/video-tools/issues",
-                "source": "https://github.com/datagutten/video-tools/tree/v2.4.1"
+                "source": "https://github.com/datagutten/video-tools/tree/master"
             },
-            "time": "2021-07-17T08:23:30+00:00"
+            "time": "2021-12-23T11:51:02+00:00"
         },
         {
             "name": "orpheusnet/logchecker",
@@ -3085,7 +3088,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "datagutten/tvdb": 20,
+        "datagutten/video-tools": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

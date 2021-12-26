@@ -7,6 +7,9 @@ use InvalidArgumentException;
 class TVSeriesUtils
 {
 
+    /**
+     * @deprecated use EpisodeFormat from video-tools
+     */
     public static function season_episode(int $season = null, int $episode = null, string $title = null): string
     {
         if (!empty($season) && !empty($episode))
