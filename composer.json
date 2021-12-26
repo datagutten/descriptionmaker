@@ -10,7 +10,7 @@
         "ext-simplexml": "*",
         "datagutten/audio-metadata": "^3.0",
         "datagutten/imagehost": "^3.1",
-        "datagutten/musicbrainz": "^3.0",
+        "datagutten/musicbrainz": "^3.2.3",
         "datagutten/tools": "^1.8",
         "datagutten/tvdb": "^3.0",
         "datagutten/video-tools": "^2.0",

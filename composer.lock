@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f35f6acc97dc2d7e15e2f7fd7d4874e",
+    "content-hash": "e26904cea2e728540b7628c13f0c9cf7",
     "packages": [
         {
             "name": "datagutten/audio-metadata",
