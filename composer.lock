@@ -4,56 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ff1487b71ff0b1b22e2662add16b31b",
+    "content-hash": "2165904831a2cb70189281a98ee948ce",
     "packages": [
-        {
-            "name": "cweagans/composer-patches",
-            "version": "1.7.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "9888dcc74993c030b75f3dd548bb5e20cdbd740c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/9888dcc74993c030b75f3dd548bb5e20cdbd740c",
-                "reference": "9888dcc74993c030b75f3dd548bb5e20cdbd740c",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "composer/composer": "~1.0 || ~2.0",
-                "phpunit/phpunit": "~4.6"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "cweagans\\Composer\\Patches"
-            },
-            "autoload": {
-                "psr-4": {
-                    "cweagans\\Composer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cameron Eagans",
-                    "email": "me@cweagans.net"
-                }
-            ],
-            "description": "Provides a way to patch Composer packages.",
-            "support": {
-                "issues": "https://github.com/cweagans/composer-patches/issues",
-                "source": "https://github.com/cweagans/composer-patches/tree/1.7.1"
-            },
-            "time": "2021-06-08T15:12:46+00:00"
-        },
         {
             "name": "datagutten/audio-metadata",
             "version": "v3.1.1",
@@ -96,37 +48,29 @@
         },
         {
             "name": "datagutten/imagehost",
-            "version": "v3.0.3",
+            "version": "v3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/imagehost.git",
-                "reference": "0ed640493a0337cf0ac8b84145db700235c45a12"
+                "reference": "32da81801736c2b1eccc7780548892b89ad647b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/imagehost/zipball/0ed640493a0337cf0ac8b84145db700235c45a12",
-                "reference": "0ed640493a0337cf0ac8b84145db700235c45a12",
+                "url": "https://api.github.com/repos/datagutten/imagehost/zipball/32da81801736c2b1eccc7780548892b89ad647b8",
+                "reference": "32da81801736c2b1eccc7780548892b89ad647b8",
                 "shasum": ""
             },
             "require": {
-                "cweagans/composer-patches": "~1.0",
                 "ext-curl": "*",
                 "ext-json": "*",
                 "php": ">=7.1",
-                "rmccue/requests": "1.8.1",
+                "rmccue/requests": "^2.0",
                 "symfony/filesystem": "^4.3|^5"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9|^8|^7.5"
             },
             "type": "library",
-            "extra": {
-                "patches": {
-                    "rmccue/requests": {
-                        "Support multipart/form-data": "https://github.com/datagutten/Requests/commit/3c88c2fef11abd875dc7b4f376312901d63c79d1.patch"
-                    }
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "datagutten\\image_host\\": "sites"
@@ -145,22 +89,22 @@
             "description": "A PHP class structure to upload images to different hosts",
             "support": {
                 "issues": "https://github.com/datagutten/imagehost/issues",
-                "source": "https://github.com/datagutten/imagehost/tree/v3.0.3"
+                "source": "https://github.com/datagutten/imagehost/tree/v3.1"
             },
-            "time": "2021-10-31T09:53:17+00:00"
+            "time": "2021-12-26T11:38:23+00:00"
         },
         {
             "name": "datagutten/musicbrainz",
-            "version": "v3.1",
+            "version": "v3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/musicbrainz.git",
-                "reference": "168c075ba4789553b9723b1dde8e5cac28987286"
+                "reference": "e7eeae4b9b38ce13e1abaa97fb56e59bbd2260fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/musicbrainz/zipball/168c075ba4789553b9723b1dde8e5cac28987286",
-                "reference": "168c075ba4789553b9723b1dde8e5cac28987286",
+                "url": "https://api.github.com/repos/datagutten/musicbrainz/zipball/e7eeae4b9b38ce13e1abaa97fb56e59bbd2260fc",
+                "reference": "e7eeae4b9b38ce13e1abaa97fb56e59bbd2260fc",
                 "shasum": ""
             },
             "require": {
@@ -171,7 +115,7 @@
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "php": "^7.4|^8.0",
-                "rmccue/requests": "^1.7",
+                "rmccue/requests": "^2.0",
                 "symfony/polyfill-php80": "^1.23",
                 "symfony/process": "^5.3"
             },
@@ -201,51 +145,9 @@
             "description": "PHP class and tools to work with data on musicbrainz.org",
             "support": {
                 "issues": "https://github.com/datagutten/musicbrainz/issues",
-                "source": "https://github.com/datagutten/musicbrainz/tree/v3.1"
+                "source": "https://github.com/datagutten/musicbrainz/tree/v3.2.3"
             },
-            "time": "2021-08-06T10:58:39+00:00"
-        },
-        {
-            "name": "datagutten/tidal-tools",
-            "version": "v2.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/datagutten/TIDALtools.git",
-                "reference": "590e67efa0715874ac682ac570f6852b4003a19b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/TIDALtools/zipball/590e67efa0715874ac682ac570f6852b4003a19b",
-                "reference": "590e67efa0715874ac682ac570f6852b4003a19b",
-                "shasum": ""
-            },
-            "require": {
-                "datagutten/audio-metadata": "^3.0",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "php": ">=7.1",
-                "rmccue/requests": "^1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.5|^8.0|^9.0",
-                "symfony/filesystem": "^4.3|^5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "datagutten\\Tidal\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "description": "Tools for fetching info from TIDAL",
-            "support": {
-                "issues": "https://github.com/datagutten/TIDALtools/issues",
-                "source": "https://github.com/datagutten/TIDALtools/tree/v2.3.1"
-            },
-            "time": "2020-10-19T18:03:25+00:00"
+            "time": "2021-12-26T12:50:11+00:00"
         },
         {
             "name": "datagutten/tools",
@@ -298,22 +200,22 @@
         },
         {
             "name": "datagutten/tvdb",
-            "version": "v3.3",
+            "version": "v3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/tvdb.git",
-                "reference": "5e8fcbd1a0faa33d5b50710076019effb7f100af"
+                "reference": "ccfa373ed9acfacfb95c0743b9dd9ba86d1cd353"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/tvdb/zipball/5e8fcbd1a0faa33d5b50710076019effb7f100af",
-                "reference": "5e8fcbd1a0faa33d5b50710076019effb7f100af",
+                "url": "https://api.github.com/repos/datagutten/tvdb/zipball/ccfa373ed9acfacfb95c0743b9dd9ba86d1cd353",
+                "reference": "ccfa373ed9acfacfb95c0743b9dd9ba86d1cd353",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=7.1",
-                "rmccue/requests": "^1.7|dev-multipart-form-data@dev",
+                "rmccue/requests": "^1.7|dev-multipart-form-data@dev|^2.0",
                 "symfony/filesystem": "^4|^5"
             },
             "require-dev": {
@@ -339,9 +241,9 @@
             "description": "A class for working with the TVDB API v2",
             "support": {
                 "issues": "https://github.com/datagutten/tvdb/issues",
-                "source": "https://github.com/datagutten/tvdb/tree/v3.3"
+                "source": "https://github.com/datagutten/tvdb/tree/v3.4.1"
             },
-            "time": "2021-06-13T09:40:25+00:00"
+            "time": "2021-11-27T15:40:17+00:00"
         },
         {
             "name": "datagutten/video-tools",
@@ -494,36 +396,44 @@
         },
         {
             "name": "rmccue/requests",
-            "version": "v1.8.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/Requests.git",
-                "reference": "82e6936366eac3af4d836c18b9d8c31028fe4cd5"
+                "reference": "7ef0774f0bf32dddb7b6c1dd01e4d285c2ba3c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/Requests/zipball/82e6936366eac3af4d836c18b9d8c31028fe4cd5",
-                "reference": "82e6936366eac3af4d836c18b9d8c31028fe4cd5",
+                "url": "https://api.github.com/repos/WordPress/Requests/zipball/7ef0774f0bf32dddb7b6c1dd01e4d285c2ba3c3f",
+                "reference": "7ef0774f0bf32dddb7b6c1dd01e4d285c2ba3c3f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2"
+                "ext-json": "*",
+                "php": ">=5.6"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
                 "php-parallel-lint/php-console-highlighter": "^0.5.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "php-parallel-lint/php-parallel-lint": "^1.3.1",
                 "phpcompatibility/php-compatibility": "^9.0",
-                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5",
                 "requests/test-server": "dev-master",
-                "squizlabs/php_codesniffer": "^3.5",
-                "wp-coding-standards/wpcs": "^2.0"
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.6",
+                "wp-coding-standards/wpcs": "^2.0",
+                "yoast/phpunit-polyfills": "^1.0.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Requests": "library/"
-                }
+                "psr-4": {
+                    "WpOrg\\Requests\\": "src/"
+                },
+                "classmap": [
+                    "library/Requests.php"
+                ],
+                "files": [
+                    "library/Deprecated.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -532,11 +442,23 @@
             "authors": [
                 {
                     "name": "Ryan McCue",
-                    "homepage": "http://ryanmccue.info"
+                    "homepage": "https://rmccue.io/"
+                },
+                {
+                    "name": "Alain Schlesser",
+                    "homepage": "https://github.com/schlessera"
+                },
+                {
+                    "name": "Juliette Reinders Folmer",
+                    "homepage": "https://github.com/jrfnl"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/WordPress/Requests/graphs/contributors"
                 }
             ],
             "description": "A HTTP library written in PHP, for human beings.",
-            "homepage": "http://github.com/WordPress/Requests",
+            "homepage": "https://requests.ryanmccue.info/",
             "keywords": [
                 "curl",
                 "fsockopen",
@@ -547,10 +469,11 @@
                 "sockets"
             ],
             "support": {
+                "docs": "https://requests.ryanmccue.info/",
                 "issues": "https://github.com/WordPress/Requests/issues",
-                "source": "https://github.com/WordPress/Requests/tree/v1.8.1"
+                "source": "https://github.com/WordPress/Requests"
             },
-            "time": "2021-06-04T09:56:25+00:00"
+            "time": "2021-11-24T14:20:18+00:00"
         },
         {
             "name": "symfony/console",
@@ -706,21 +629,22 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.3.4",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "343f4fe324383ca46792cae728a3b6e2f708fb32"
+                "reference": "731f917dc31edcffec2c6a777f3698c33bea8f01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/343f4fe324383ca46792cae728a3b6e2f708fb32",
-                "reference": "343f4fe324383ca46792cae728a3b6e2f708fb32",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/731f917dc31edcffec2c6a777f3698c33bea8f01",
+                "reference": "731f917dc31edcffec2c6a777f3698c33bea8f01",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
                 "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.8",
                 "symfony/polyfill-php80": "^1.16"
             },
             "type": "library",
@@ -749,7 +673,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v5.3.4"
+                "source": "https://github.com/symfony/filesystem/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -765,7 +689,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-21T12:40:44+00:00"
+            "time": "2021-10-28T13:39:27+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1011,16 +935,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v5.3.7",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "38f26c7d6ed535217ea393e05634cb0b244a1967"
+                "reference": "5be20b3830f726e019162b26223110c8f47cf274"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/38f26c7d6ed535217ea393e05634cb0b244a1967",
-                "reference": "38f26c7d6ed535217ea393e05634cb0b244a1967",
+                "url": "https://api.github.com/repos/symfony/process/zipball/5be20b3830f726e019162b26223110c8f47cf274",
+                "reference": "5be20b3830f726e019162b26223110c8f47cf274",
                 "shasum": ""
             },
             "require": {
@@ -1053,7 +977,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v5.3.7"
+                "source": "https://github.com/symfony/process/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -1069,7 +993,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-04T21:20:46+00:00"
+            "time": "2021-11-28T15:25:38+00:00"
         },
         {
             "name": "symfony/yaml",
