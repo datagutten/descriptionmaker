@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9932dc4a86fe7c49ea6842b3740a9ea6",
+    "content-hash": "94421d27e30cef9af30c1cb5dfcd8ec5",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -345,36 +345,35 @@
         },
         {
             "name": "datagutten/video-tools",
-            "version": "v1.0",
+            "version": "v2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datagutten/video-tools.git",
-                "reference": "717a228de088000f06b1ac622114ae967ed65261"
+                "reference": "81ee52a75a81aa40a9c5d5a2edd3ede3663a452c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datagutten/video-tools/zipball/717a228de088000f06b1ac622114ae967ed65261",
-                "reference": "717a228de088000f06b1ac622114ae967ed65261",
+                "url": "https://api.github.com/repos/datagutten/video-tools/zipball/81ee52a75a81aa40a9c5d5a2edd3ede3663a452c",
+                "reference": "81ee52a75a81aa40a9c5d5a2edd3ede3663a452c",
                 "shasum": ""
             },
             "require": {
-                "datagutten/tools": "^1.2",
-                "ext-simplexml": "*"
+                "datagutten/tools": "^1.8",
+                "ext-simplexml": "*",
+                "php": ">=7.1",
+                "symfony/process": "^4|^5"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.4",
-                "symfony/filesystem": "^4.3"
+                "phpunit/phpunit": "^7.5|^8|^9",
+                "symfony/filesystem": "^4.3|^5"
             },
+            "bin": [
+                "scripts/ttml_to_srt",
+                "scripts/vtt_to_srt",
+                "scripts/mkvmerge"
+            ],
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "srt.php",
-                    "ttml_to_srt.php",
-                    "video.php",
-                    "video_download.php",
-                    "video_duration_check.php",
-                    "vtt_to_srt.php"
-                ],
                 "psr-4": {
                     "datagutten\\video_tools\\": "src"
                 }
@@ -392,9 +391,9 @@
             "description": "A collection of tools for working with video files",
             "support": {
                 "issues": "https://github.com/datagutten/video-tools/issues",
-                "source": "https://github.com/datagutten/video-tools/tree/master"
+                "source": "https://github.com/datagutten/video-tools/tree/v2.4.1"
             },
-            "time": "2019-11-23T11:14:32+00:00"
+            "time": "2021-07-17T08:23:30+00:00"
         },
         {
             "name": "orpheusnet/logchecker",
@@ -3167,11 +3166,11 @@
     "prefer-lowest": false,
     "platform": {
         "ext-fileinfo": "*",
-        "ext-mbstring": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "ext-simplexml": "*",
         "ext-dom": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.2.0"
 }

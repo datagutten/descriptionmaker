@@ -6,9 +6,9 @@ namespace datagutten\descriptionMaker;
 
 use datagutten\tools\files\files;
 use datagutten\video_tools\exceptions\DurationNotFoundException;
+use datagutten\video_tools\video;
 use DependencyFailedException;
 use FileNotFoundException;
-use video;
 
 class utils
 {
