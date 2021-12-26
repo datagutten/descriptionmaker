@@ -46,6 +46,12 @@ jobs:
           coverage: xdebug
           extensions: libxml, gd, fileinfo
 
+      - name: Update composer
+        run: |
+          composer -V
+          composer self-update --no-progress
+          composer -V
+
       - name: Update dependencies
         if:  ${{ matrix.experimental == false && matrix.php != 'latest' }}
         run: composer update --prefer-dist --no-progress
