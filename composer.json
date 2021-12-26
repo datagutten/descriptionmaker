@@ -38,7 +38,10 @@
     },
     "config": {
         "sort-packages": true,
-        "preferred-install": "source"
+        "preferred-install": "source",
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
     },
     "bin": [
         "scripts/description_album",
