@@ -2,54 +2,64 @@
 
 namespace datagutten\descriptionMaker;
 
-use datagutten\musicbrainz\exceptions\MusicBrainzErrorException;
 use datagutten\musicbrainz\exceptions\MusicBrainzException;
 use datagutten\musicbrainz\musicbrainz;
+use datagutten\musicbrainz\seed;
 use InvalidArgumentException;
-use SimpleXMLElement;
 
 class MusicBrainzDescription extends musicbrainz
 {
-
-    function track_list($album)
+    /**
+     * Build a formatted track list from a release object
+     * @param seed\Release $release
+     * @return string
+     */
+    public static function track_list(seed\Release $release): string
     {
         $disc_key = 1;
         $track_key = 0;
-        foreach ($album->{'release'}->{'medium-list'}->medium as $medium)
+        /**
+         * @var int[] Line lengths
+         */
+        $lengths = []; //Line lengths
+        /**
+         * Track durations
+         */
+        $durations = []; //Track durations
+        /**
+         * @var string[] Track titles
+         */
+        $titles = [];
+
+        foreach ($release->mediums as $medium)
         {
-            /**
-             * @var $track SimpleXMLElement
-             */
-            foreach($medium->{'track-list'}->track as $track)
+            foreach($medium->tracks as $track)
             {
                 //var_dump($track_key);
                 $tracknum=(int)$track->number;
-                if($album->{'release'}->{'artist-credit'}->{'name-credit'}->artist->attributes()['id']=='89ad4ac3-39f7-470e-963a-56509c546377')
+                if ($release->artists[0]['id'] == '89ad4ac3-39f7-470e-963a-56509c546377')
                 {
                     $artist='';
-                    $artist_credits=$track->recording->{'artist-credit'}->{'name-credit'};
-                    if(!isset($artist_credits[0]))
-                        $artist_credits[0]=$artist_credits;
-                    foreach($artist_credits as $artist_credit) //Multiple artists
+                    foreach($track->artists as $artist_credit) //Multiple artists
                     {
                         if(empty($artist_credit->name))
-                            $artist.=$artist_credit->artist->name;
+                            $artist.=$artist_credit->artist_name;
                         else
                             $artist.=$artist_credit->name;
-                        if(!empty($artist_credit->attributes()['joinphrase']))
-                            $artist.=$artist_credit->attributes()['joinphrase'];
+                        if(!empty($artist_credit->join_phrase))
+                            $artist.=$artist_credit->join_phrase;
                     }
 
-                    $titles[$track_key]=sprintf('%02d %s - %s',$tracknum,$artist,$track->recording->title);
+                    $titles[$track_key]=sprintf('%02d %s - %s',$tracknum,$artist,$track->title);
                 }
                 else
-                    $titles[$track_key]=$tracknum.' '.$track->{'recording'}->title;
+                    $titles[$track_key]=$tracknum.' '.$track->title;
 
                 /*$duration_sec=$track->{'length'}/1000; //Get duration in seconds
                 $duration_float=$duration_sec/60;
                 $duration_min=(int)$duration_float; //Remove decimals to get duration in minutes
                 $durations[$track_key]=sprintf('%d:%02d',$duration_min,$duration_sec-60*$duration_min);*/
-                $durations[$track_key] = utils::seconds_to_time($track->{'length'}/1000);
+                $durations[$track_key] = utils::seconds_to_time($track->length/1000);
 
                 $len=mb_strlen($titles[$track_key]);
                 /*if($track->number>9)
@@ -107,12 +117,12 @@ class MusicBrainzDescription extends musicbrainz
 
     /**
      * @param $metadata_or_albumid
-     * @param bool $releaseinfo
+     * @param ?seed\Release $release Release object
      * @param bool $cover_art
      * @return string
-     * @throws MusicBrainzErrorException
+     * @throws MusicBrainzException
      */
-	function build_description($metadata_or_albumid,$releaseinfo=false, $cover_art = true)
+	function build_description($metadata_or_albumid, seed\Release $release = null, bool $cover_art = true): string
 	{
 
 		if(is_string($metadata_or_albumid))
@@ -120,12 +130,8 @@ class MusicBrainzDescription extends musicbrainz
 		else
 			$albumid=$metadata_or_albumid['MUSICBRAINZ_ALBUMID'];
 
-		if($releaseinfo===false)
-			$album=$this->getrelease($albumid);
-		else
-			$album=$releaseinfo;
-		if(!is_object($album))
-			return false;
+		if(empty($release))
+            $release = $this->releaseFromMBID($albumid, ['artists', 'recordings', 'artist-credits']);
 
         if($cover_art)
         {
@@ -134,21 +140,19 @@ class MusicBrainzDescription extends musicbrainz
                 $art = sprintf("[url=%s][img]%s[/img][/url]\n", $mb_art['image'], $mb_art['thumbnails'][250]);
         }
 
-		$track_count=$album->{'release'}->{'medium-list'}->medium->{'track-list'}->attributes()['count'];
-		//$release_group_id=$metadata['MUSICBRAINZ_RELEASEGROUPID'];
+		$track_count=count($release->mediums[0]->tracks); // TODO: Summarize track count for multiple discs
 
-		$amazon_link = "";
+		/*$amazon_link = "";
 		if (!empty($asin)) {
 			$amazon_link = "[url=http://www.amazon.com/exec/obidos/ASIN/" . $asin . "]Amazon[/url]" . "\n";
 		}
 		$country_text = "";
 		if (!empty($album->{'release'}->country)) {
 			$country_text = sprintf("Country: %s\n",$album->{'release'}->country);
-		}
+		}*/
 		$barcode_text = "";
-		$barcode=$album->{'release'}->barcode;
-		if (!empty($album->{'release'}->barcode)) {
-			$barcode_text = sprintf("Barcode: %s\n",$album->{'release'}->barcode);
+		if (!empty($release->barcode)) {
+			$barcode_text = sprintf("Barcode: %s\n",$release->barcode);
 		}
 		/*$description = $amazon_link . "[url=https://musicbrainz.org/release/" . $albumid . "]MusicBrainz[/url]" . "\n" . "\n" .
 		//$description = $amazon_link . "[url=https://musicbrainz.org/release-group/" . $release_group_id . "]MusicBrainz[/url]" . "\n" . "\n" .
@@ -156,12 +160,12 @@ class MusicBrainzDescription extends musicbrainz
 		$barcode_text . "Tracks: " . $track_count . "\n\n" . "Track list:" . "\n";*/
 
 		//print_r($album);
-        $tracklist = $this->track_list($album);
+        $tracklist = self::track_list($release);
         return sprintf("%s%s[url=https://musicbrainz.org/release/%s]MusicBrainz[/url]\n\n%s%sTracks: %d\n\nTrack list:\n[pre]%s[/pre]",
                              $art ?? '',
-                             $amazon_link,
+                             $amazon_link ?? '',
                              $albumid,
-                             $country_text,
+                             $country_text ?? '',
                              $barcode_text,
                              $track_count,
                              $tracklist);
