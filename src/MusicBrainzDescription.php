@@ -142,29 +142,26 @@ class MusicBrainzDescription extends musicbrainz
 
 		$track_count=count($release->mediums[0]->tracks); // TODO: Summarize track count for multiple discs
 
-		/*$amazon_link = "";
-		if (!empty($asin)) {
-			$amazon_link = "[url=http://www.amazon.com/exec/obidos/ASIN/" . $asin . "]Amazon[/url]" . "\n";
-		}
-		$country_text = "";
+		/*$country_text = "";
 		if (!empty($album->{'release'}->country)) {
 			$country_text = sprintf("Country: %s\n",$album->{'release'}->country);
 		}*/
+        $links = $this->get_links($release);
+        $link_string = BBCode::link($release->link(), 'MusicBrainz') . "\n";
+        foreach ($links as $link)
+        {
+            $link_string .= BBCode::link($link['url'], $link['text']) . "\n";
+        }
+
 		$barcode_text = "";
 		if (!empty($release->barcode)) {
 			$barcode_text = sprintf("Barcode: %s\n",$release->barcode);
 		}
-		/*$description = $amazon_link . "[url=https://musicbrainz.org/release/" . $albumid . "]MusicBrainz[/url]" . "\n" . "\n" .
-		//$description = $amazon_link . "[url=https://musicbrainz.org/release-group/" . $release_group_id . "]MusicBrainz[/url]" . "\n" . "\n" .
-		$country_text .
-		$barcode_text . "Tracks: " . $track_count . "\n\n" . "Track list:" . "\n";*/
 
-		//print_r($album);
         $tracklist = self::track_list($release);
-        return sprintf("%s%s[url=https://musicbrainz.org/release/%s]MusicBrainz[/url]\n\n%s%sTracks: %d\n\nTrack list:\n[pre]%s[/pre]",
+        return sprintf("%s%s\n\n%s%sTracks: %d\n\nTrack list:\n[pre]%s[/pre]",
                              $art ?? '',
-                             $amazon_link ?? '',
-                             $albumid,
+                             $link_string,
                              $country_text ?? '',
                              $barcode_text,
                              $track_count,
