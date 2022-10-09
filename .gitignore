@@ -5,3 +5,8 @@ composer.phar
 # You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
 # composer.lock
 config*.php
+
+.idea
+coverage_html
+.phpunit.result.cache
+clower.xml
