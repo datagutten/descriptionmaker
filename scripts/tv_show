@@ -8,37 +8,50 @@ use datagutten\tvdb;
 require __DIR__ . '/loader.php';
 $config = descriptionmaker_config();
 $desc = new description($config);
-$tvdb_scrape = new descriptionMaker\TVDBScrape();
+if(isset($config['tvdb_cache']))
+    $tvdb_scrape = new tvdb\cache\TVDBScrape($config['tvdb_cache']);
+else
+    $tvdb_scrape = new tvdb\TVDBScrape();
+
 $tvdb_desc = new descriptionMaker\TVDB();
 
 $pathinfo = pathinfo($argv[1]);
 $info = descriptionMaker\TVSeriesUtils::parse_release($pathinfo['filename']);
 if (empty($info))
     die("Unable to parse series name\n");
+$tvdb_slug = $argv[2] ?? null;
 
 try
 {
-    $tvdb = new tvdb\tvdb($config['tvdb']);
-    $search = $tvdb->series_search($info['series']);
-    $banner = $tvdb->banner($search['id']);
+    if(!empty($tvdb_slug))
+    {
+        $series = $tvdb_scrape->series($tvdb_slug);
+        $banners = $series->banners();
+    }
 }
 catch (tvdb\exceptions\tvdbException $e)
 {
-    die('Error from TVDB API: ' . $e->getMessage() . "\n");
+    echo 'Error from TVDB API: ' . $e->getMessage() . "\n";
 }
 
 $description = '';
 
-if (!empty($banner)) //Series banner
-    $description .= descriptionMaker\BBCode::image($banner, sprintf('https://www.thetvdb.com/series/%s', $search['slug'])) . "\n";
+if (!empty($banners)) //Series banner
+    $description .= descriptionMaker\BBCode::image($banners[0], sprintf('https://www.thetvdb.com/series/%s', $tvdb_slug)) . "\n";
+else //In case the series is not found or don't have a banner, use the series name as banner
+    $description .= descriptionMaker\BBCode::simple('b', $pathinfo['filename'])."\n";
+
 if (!empty($search['overview'])) //Series overview
     $description .= $search['overview'] . "\n\n";
 
-if (empty($info['episode'])) //Complete season
-    $description .= $tvdb_desc->episode_list($search['slug'], $info['season']);
-else //Single episode
-    $description .= $tvdb_desc->episode($search['slug'], $info['season'], $info['episode']) . "\n\n";
-
+if (!empty($series))
+{
+	$season = $series->season($info['season']);
+    if (empty($info['episode'])) //Complete season
+        $description .= $tvdb_desc->episode_list($tvdb_slug, $info['season']);
+    else //Single episode
+        $description .= $tvdb_desc->episode($tvdb_slug, $info['season'], $info['episode']) . "\n\n";
+}
 
 if (is_file($argv[1]))
     $video_file = realpath($argv[1]);
@@ -60,7 +73,7 @@ catch (descriptionMaker\exceptions\SnapshotException $e)
 try
 {
 	$mediainfo = descriptionMaker\Mediainfo::plain($video_file);
-	$mediainfo_file = files::path_join($pathinfo['dirname'], $pathinfo['filename'] . '.mediainfo');
+	$mediainfo_file = files::path_join($pathinfo['dirname'], $pathinfo['basename'] . '.mediainfo');
 	file_put_contents($mediainfo_file, $mediainfo);
 }
 catch (descriptionMaker\exceptions\DescriptionException|FileNotFoundException $e)

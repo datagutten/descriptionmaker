@@ -9,41 +9,38 @@ class TVDB
      * @var TVDBScrape
      */
     private TVDBScrape $tvdb_scrape;
+	public string $language;
 
-    public function __construct()
+    public function __construct($language = 'eng')
     {
+        $this->language = $language;
         $this->tvdb_scrape = new TVDBScrape();
     }
 
-    function episode_list($tvdb_series_slug, $season_number, $languages = ['eng'], $ordering='official'): string
+    function episode_list(string $tvdb_series_slug, int $season_number, string $ordering='official'): string
     {
-        $tvdb_episodes = $this->tvdb_scrape->episodes($tvdb_series_slug, $ordering, true);
-        $season = $this->tvdb_scrape->season($tvdb_series_slug, $season_number, $ordering);
+        $tvdb_episodes = $this->tvdb_scrape->episodes($tvdb_series_slug, $ordering, true, $season_number);
         $description = '';
-        foreach ($season as $id=>$episode_num)
+        foreach ($tvdb_episodes as $id=>$episode)
         {
-            $episode = $tvdb_episodes[$id];
-
-            list($title, $overview) = $this->tvdb_scrape->translation($episode->url, $languages);
-            $description .= BBCode::link($episode->url, $episode->episode_title()) . "\n";
-
+            $description .= BBCode::link($episode->url(), $episode->episode_title()) . "\n";
             if (!empty($episode->description))
                 $description .= trim($episode->description) . "\n\n";
         }
         return $description;
     }
 
-    function episode(string $tvdb_series_slug, int $season_number, int $episode_number, $languages = ['eng']): string
+    function episode(string $tvdb_series_slug, int $season_number, int $episode_number): string
     {
-        $tvdb_episodes = $this->tvdb_scrape->episodes($tvdb_series_slug, $season_number);
-        $episode_string = TVSeriesUtils::season_episode($season_number, $episode_number);
-        $episode = $tvdb_episodes[$episode_string]; //TODO: Check isset
-        list($title, $overview) = $this->tvdb_scrape->translation($episode['href'], $languages);
+		$series_obj = $this->tvdb_scrape->series($tvdb_series_slug, $this->language);
+		$season_obj = $series_obj->season($season_number);
+		$episode_obj = $season_obj->episode($episode_number);
+		
+		$title = $episode_obj->episode_name();
+		$description = BBCode::link($episode_obj->url(), $title) . "\n";
 
-        $title = TVSeriesUtils::season_episode($season_number, $episode_number, $title);
-        $description = BBCode::link(TVDBScrape::episode_link($episode), $title) . "\n";
-        if(!empty($overview))
-            $description .= $overview;
+        if(!empty($episode_obj->description))
+            $description .= $episode_obj->description;
         return $description;
     }
 }
