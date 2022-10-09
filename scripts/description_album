@@ -2,6 +2,7 @@
 <?php
 
 use datagutten\AudioMetadata\AudioMetadata;
+use datagutten\descriptionMaker;
 use datagutten\descriptionMaker\EAClogBBCode;
 use datagutten\descriptionMaker\MusicBrainzDescription;
 use datagutten\tools\files\files;
@@ -38,6 +39,17 @@ try
 catch (InvalidArgumentException $e)
 {
     echo "No log found\n";
+}
+
+try
+{
+	$mediainfo = descriptionMaker\Mediainfo::plain($file);
+	$mediainfo_file = files::path_join($info['dirname'], $info['filename'] . '.mediainfo');
+	file_put_contents($mediainfo_file, $mediainfo);
+}
+catch (descriptionMaker\exceptions\DescriptionException|FileNotFoundException $e)
+{
+	echo $e->getMessage()."\n";
 }
 
 file_put_contents($file_description,$desc); //Write the complete description to a file
