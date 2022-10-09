@@ -11,6 +11,9 @@ $desc = new description(descriptionmaker_config());
 try
 {
     $video_file = $argv[1];
+    if (is_dir($video_file))
+        $video_file = files::first_file($video_file, ['mkv', 'mp4', 'ts']);
+
     $folder = files::path_join(dirname($video_file), 'snapshots');
     echo $desc->snapshots->snapshots($video_file, $folder);
 }
