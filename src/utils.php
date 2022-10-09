@@ -20,7 +20,7 @@ class utils
      */
     public static function seconds_to_time($seconds)
     {
-        return sprintf('%02d:%02d',floor(($seconds/60) % 60),$seconds % 60);
+        return sprintf('%02d:%02d',floor(intval($seconds/60) % 60),$seconds % 60);
     }
 
     public static function file_path(string $source, string $extension): string
