@@ -18,6 +18,6 @@ class MusicBrainzDescriptionTest extends TestCase
     {
         $mb = new MusicBrainzDescription();
         $desc = $mb->build_description('896b6786-080f-44ac-bd18-fbdbee058cc3');
-        $this->assertStringContainsString('[url=https://tidal.com/album/1315017]Tidal[/url]', $desc);
+        $this->assertStringContainsString('[url=https://tidal.com/album/1315017]Stream at Tidal[/url]', $desc);
     }
 }
