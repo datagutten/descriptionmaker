@@ -1,10 +1,15 @@
 <?php
-foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file)
+function get_autoloader()
 {
-    if (file_exists($file))
+    foreach (array(__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file)
     {
-        /** @noinspection PhpIncludeInspection */
-        require $file;
-        break;
+        if (file_exists($file))
+        {
+            /** @noinspection PhpIncludeInspection */
+            require $file;
+            return;
+        }
     }
+    throw new RuntimeException('Autoloader not found');
 }
+get_autoloader();
