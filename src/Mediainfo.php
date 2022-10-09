@@ -2,6 +2,7 @@
 
 namespace datagutten\descriptionMaker;
 
+use datagutten\descriptionMaker\exceptions\DescriptionException;
 use dependcheck;
 use DependencyFailedException;
 use FileNotFoundException;
@@ -11,19 +12,26 @@ use Symfony\Component\Process\Process;
 class Mediainfo
 {
 	/**
-	 * @throws DependencyFailedException
+	 * @throws DescriptionException
 	 */
 	protected static function dependcheck()
 	{
 		$dependcheck = new dependcheck();
-		$dependcheck->depend('mediainfo');
+		try
+		{
+			$dependcheck->depend('mediainfo');
+		}
+		catch (DependencyFailedException $e)
+		{
+			throw new DescriptionException($e->getMessage(), 0, $e);
+		}
 	}
 
 	/**
 	 * @param string $file File name
 	 * @param array $args
 	 * @return Process
-	 * @throws DependencyFailedException|FileNotFoundException
+	 * @throws FileNotFoundException|DescriptionException
 	 */
 	protected static function mediainfo(string $file, array $args = []): Process
 	{
@@ -34,7 +42,7 @@ class Mediainfo
 		$process = new Process(array_merge(['mediainfo', $file], $args));
 		$process->run();
 		if (!$process->isSuccessful())
-			throw new ProcessFailedException($process);
+			throw new DescriptionException('Mediainfo failed', 0, new ProcessFailedException($process));
 		return $process;
 	}
 
@@ -42,7 +50,7 @@ class Mediainfo
 	 * Run mediainfo with plain output, but file name removed
 	 * @param string $file
 	 * @return string
-	 * @throws DependencyFailedException
+	 * @throws DescriptionException
 	 * @throws FileNotFoundException
 	 */
 	public static function plain(string $file): string
@@ -62,7 +70,7 @@ class Mediainfo
 	 * Run mediainfo and format output with spaces and BBCode
 	 * @param string $file
 	 * @return string
-	 * @throws DependencyFailedException
+	 * @throws DescriptionException
 	 * @throws FileNotFoundException
 	 */
 	public static function pretty(string $file): string
@@ -71,6 +79,7 @@ class Mediainfo
 		$xml = simplexml_load_string($process->getOutput());
 		$key_lengths = [];
 		$output = [];
+        $outputkeys = [];
 		foreach ($xml->{'media'}->{'track'} as $track)
 		{
 			$output[] = $track->attributes()->{'type'};
