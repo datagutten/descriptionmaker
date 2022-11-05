@@ -13,19 +13,20 @@ if(isset($config['tvdb_cache']))
 else
     $tvdb_scrape = new tvdb\TVDBScrape();
 
-$tvdb_desc = new descriptionMaker\TVDB();
 
 $pathinfo = pathinfo($argv[1]);
 $info = descriptionMaker\TVSeriesUtils::parse_release($pathinfo['filename']);
 if (empty($info))
     die("Unable to parse series name\n");
 $tvdb_slug = $argv[2] ?? null;
+$tvdb_lang = $argv[3] ?? null;
+$tvdb_desc = new descriptionMaker\TVDB($tvdb_lang, $tvdb_scrape);
 
 try
 {
     if(!empty($tvdb_slug))
     {
-        $series = $tvdb_scrape->series($tvdb_slug);
+        $series = $tvdb_scrape->series($tvdb_slug, $tvdb_lang);
         $banners = $series->banners();
     }
 }
