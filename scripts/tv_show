@@ -63,7 +63,10 @@ else
 try
 {
     $folder = files::path_join($pathinfo['dirname'], 'snapshots');
-    $description .= $desc->snapshots->snapshots($video_file, $folder);
+    if(!empty($desc->snapshots))
+        $description .= $desc->snapshots->snapshots($video_file, $folder);
+    else
+        trigger_error('Image host class not set, unable to create snapshots');
 }
 catch (descriptionMaker\exceptions\SnapshotException $e)
 {
