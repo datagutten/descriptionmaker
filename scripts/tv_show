@@ -20,7 +20,7 @@ if (empty($info))
     die("Unable to parse series name\n");
 $tvdb_slug = $argv[2] ?? null;
 $tvdb_lang = $argv[3] ?? null;
-$tvdb_desc = new descriptionMaker\TVDB($tvdb_lang, $tvdb_scrape);
+$tvdb_desc = new descriptionMaker\TVDB();
 
 try
 {
@@ -49,9 +49,9 @@ if (!empty($series))
 {
 	$season = $series->season($info['season']);
     if (empty($info['episode'])) //Complete season
-        $description .= $tvdb_desc->episode_list($tvdb_slug, $info['season']);
+        $description .= $tvdb_desc->episode_list($season);
     else //Single episode
-        $description .= $tvdb_desc->episode($tvdb_slug, $info['season'], $info['episode']) . "\n\n";
+        $description .= $tvdb_desc->episode($season->episode($info['episode'])) . "\n\n";
 }
 
 if (is_file($argv[1]))
