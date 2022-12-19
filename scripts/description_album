@@ -30,8 +30,11 @@ try
 {
     $file_log = files::first_file($argv[1], ['log']);
     $logchecker = new Logchecker();
-    $logchecker->new_file($file_log);
-    list($score, $details, $checksum_state, $log_text) = $logchecker->parse();
+    $logchecker->newFile($file_log);
+    $logchecker->parse();
+    $score = $logchecker->getScore();
+    $details = $logchecker->getDetails();
+    $log_text = $logchecker->getLog();
 
     $log_bbcode = EAClogBBCode::rewrite($log_text);
     $desc .= sprintf("\n\nLog score: %d\n[spoiler]%s[/spoiler]", $score, $log_bbcode);
