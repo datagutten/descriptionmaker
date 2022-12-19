@@ -13,16 +13,12 @@ use FileNotFoundException;
 class utils
 {
     /**
-     * Convert duration in seconds to hours, minutes and seconds
-     * https://stackoverflow.com/a/3172368/2630074
-     * @param int $seconds
-     * @return string Minutes:Seconds
+     * Replace the file extension for a file
+     * @param string $source Original file name
+     * @param string $extension New extension
+     * @return string File name with new extension
+     * @throws FileNotFoundException Original file not found
      */
-    public static function seconds_to_time($seconds)
-    {
-        return sprintf('%02d:%02d',floor(intval($seconds/60) % 60),$seconds % 60);
-    }
-
     public static function file_path(string $source, string $extension): string
     {
         if (!file_exists($source))
@@ -43,7 +39,7 @@ class utils
      */
     public static function snapshots(string $file, string $snapshot_folder = null): array
     {
-        $positions = video::snapshotsteps($file, 4); //Calculate snapshot positions
+        $positions = video::snapshotsteps($file); //Calculate snapshot positions
         if (empty($snapshot_folder)) //Create snapshot directory in video folder if other folder is not specified
             $snapshot_folder = dirname($file) . '/snapshots';
         if (!file_exists($snapshot_folder))

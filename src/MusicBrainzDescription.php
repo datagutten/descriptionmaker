@@ -5,6 +5,7 @@ namespace datagutten\descriptionMaker;
 use datagutten\musicbrainz\exceptions\MusicBrainzException;
 use datagutten\musicbrainz\musicbrainz;
 use datagutten\musicbrainz\seed;
+use datagutten\video_tools\video;
 use InvalidArgumentException;
 
 class MusicBrainzDescription extends musicbrainz
@@ -19,7 +20,7 @@ class MusicBrainzDescription extends musicbrainz
         $disc_key = 1;
         $track_key = 0;
         /**
-         * @var int[] Line lengths
+         * @var int[] $lengths Line lengths
          */
         $lengths = []; //Line lengths
         /**
@@ -27,7 +28,7 @@ class MusicBrainzDescription extends musicbrainz
          */
         $durations = []; //Track durations
         /**
-         * @var string[] Track titles
+         * @var string[] $titles Track titles
          */
         $titles = [];
 
@@ -55,11 +56,7 @@ class MusicBrainzDescription extends musicbrainz
                 else
                     $titles[$track_key]=$tracknum.' '.$track->title;
 
-                /*$duration_sec=$track->{'length'}/1000; //Get duration in seconds
-                $duration_float=$duration_sec/60;
-                $duration_min=(int)$duration_float; //Remove decimals to get duration in minutes
-                $durations[$track_key]=sprintf('%d:%02d',$duration_min,$duration_sec-60*$duration_min);*/
-                $durations[$track_key] = utils::seconds_to_time($track->length/1000);
+                $durations[$track_key] = video::seconds_to_time($track->length/1000);
 
                 $len=mb_strlen($titles[$track_key]);
                 /*if($track->number>9)
@@ -88,7 +85,7 @@ class MusicBrainzDescription extends musicbrainz
      * @return array
      * @throws MusicBrainzException
      */
-    function cover_art(string $album_id, string $position = 'front')
+    function cover_art(string $album_id, string $position = 'front'): array
     {
         try
         {

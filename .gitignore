@@ -9,4 +9,4 @@ config*.php
 .idea
 coverage_html
 .phpunit.result.cache
-clower.xml
+clover.xml
