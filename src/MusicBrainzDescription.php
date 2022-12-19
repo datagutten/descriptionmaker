@@ -6,7 +6,6 @@ use datagutten\musicbrainz\exceptions\MusicBrainzException;
 use datagutten\musicbrainz\musicbrainz;
 use datagutten\musicbrainz\seed;
 use datagutten\video_tools\video;
-use InvalidArgumentException;
 
 class MusicBrainzDescription extends musicbrainz
 {
@@ -80,39 +79,6 @@ class MusicBrainzDescription extends musicbrainz
     }
 
     /**
-     * @param string $album_id Album ID
-     * @param string $position Art position
-     * @return array
-     * @throws MusicBrainzException
-     */
-    function cover_art(string $album_id, string $position = 'front'): array
-    {
-        try
-        {
-            $response = $this->get('https://coverartarchive.org/release/' . $album_id); //, ['Accept'=>'application/json']
-        }
-        catch (MusicBrainzException $e)
-        {
-            return [];
-        }
-
-        if($response->status_code == 404)
-            return [];
-        elseif(!$response->success)
-            throw new MusicBrainzException('Error fetching cover art');
-
-        $images = json_decode($response->body, true);
-        foreach($images['images'] as $image)
-        {
-            if(!isset($image[$position]))
-                throw new InvalidArgumentException('Invalid position, must be front or back');
-            if($image[$position] === true)
-                return $image;
-        }
-        return [];
-    }
-
-    /**
      * @param $metadata_or_albumid
      * @param ?seed\Release $release Release object
      * @param bool $cover_art
@@ -132,9 +98,15 @@ class MusicBrainzDescription extends musicbrainz
 
         if($cover_art)
         {
-            $mb_art = $this->cover_art($albumid);
-            if(!empty($mb_art))
-                $art = sprintf("[url=%s][img]%s[/img][/url]\n", $mb_art['image'], $mb_art['thumbnails'][250]);
+            try
+            {
+                $mb_art = $this->cover($release);
+                $art = sprintf("[url=%s][img]%s[/img][/url]\n", $mb_art->image(), $mb_art->image(size: 250));
+            }
+            catch (MusicBrainzException $e)
+            {
+                echo $e->getMessage()."\n";
+            }
         }
 
 		$track_count=count($release->mediums[0]->tracks); // TODO: Summarize track count for multiple discs
