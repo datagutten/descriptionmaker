@@ -1,0 +1,32 @@
+#!/usr/bin/php
+<?php
+
+use datagutten\AudioMetadata\AudioMetadata;
+use datagutten\descriptionMaker\MusicBrainzDescription;
+use datagutten\tools\files\files;
+
+
+require __DIR__ . '/loader.php';
+
+$mb = new MusicBrainzDescription;
+
+try
+{
+    $file = files::first_file($argv[1], ['flac']);
+    $metadata = AudioMetadata::read_metadata($file);
+    $desc = $mb->build_description($metadata, cover_art: false);
+    echo $desc;
+}
+catch (FileNotFoundException $e)
+{
+    die($e->getMessage());
+}
+catch (datagutten\musicbrainz\exceptions\MusicBrainzException $e)
+{
+    die('Error from MusicBrainz: ' . $e->getMessage());
+}
+
+$info = pathinfo(realpath($argv[1]));
+$file_description = files::path_join($info['dirname'], $info['filename'] . '.txt');
+file_put_contents($file_description, $desc); //Write the complete description to a file
+printf("Tracklist saved as %s\n", $file_description);
