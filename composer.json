@@ -46,6 +46,7 @@
         "scripts/description_album",
         "scripts/mediainfo",
         "scripts/snapshots",
-        "scripts/tv_show"
+        "scripts/tv_show",
+        "scripts/tracklist"
     ]
 }
