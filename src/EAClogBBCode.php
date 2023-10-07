@@ -45,7 +45,7 @@ class EAClogBBCode
             $log = preg_replace_callback($pattern, 'self::color_class', $log, -1, $count);
         }
         $log = preg_replace('#<strong>([^</]+)</strong>#', '$1', $log);
-        $log = preg_replace_callback('#<span class="([a-z0-9]+)">(.+)</span>#U','self::color_class', $log);
+        $log = preg_replace_callback('#<span class=[\'"]([a-z0-9]+)[\'"]>(.+)</span>#U','self::color_class', $log);
         return $log;
     }
 }
