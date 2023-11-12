@@ -5,7 +5,9 @@ use datagutten\descriptionMaker;
 use datagutten\tools\files\files;
 use datagutten\tvdb;
 
-require __DIR__ . '/loader.php';
+
+require $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
+
 $config = descriptionmaker_config();
 $desc = new description($config);
 if(isset($config['tvdb_cache']))

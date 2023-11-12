@@ -8,7 +8,8 @@ use datagutten\descriptionMaker\MusicBrainzDescription;
 use datagutten\tools\files\files;
 use OrpheusNET\Logchecker\Logchecker;
 
-require __DIR__.'/loader.php';
+
+require $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 
 $mb=new MusicBrainzDescription;
 

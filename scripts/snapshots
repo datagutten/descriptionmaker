@@ -4,7 +4,8 @@
 use datagutten\descriptionMaker;
 use datagutten\tools\files\files;
 
-require __DIR__ . '/loader.php';
+
+require $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 
 $desc = new description(descriptionmaker_config());
 
