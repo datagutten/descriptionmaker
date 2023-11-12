@@ -16,19 +16,60 @@ else
     $tvdb_scrape = new tvdb\TVDBScrape();
 
 
-$pathinfo = pathinfo($argv[1]);
+$options = [
+    ['p', 'path', GetOpt\GetOpt::REQUIRED_ARGUMENT, 'File or folder to create description for'],
+    ['s', 'slug', GetOpt\GetOpt::OPTIONAL_ARGUMENT, 'TVDB slug'],
+    ['l', 'lang', GetOpt\GetOpt::OPTIONAL_ARGUMENT, 'Language'],
+    ['o', 'order', GetOpt\GetOpt::OPTIONAL_ARGUMENT, 'Episode ordering (defaults to official)']];
+
+$getOpt = new GetOpt\GetOpt($options);
+// process arguments and catch user errors
+try
+{
+    try
+    {
+        $getOpt->process();
+    }
+    catch (GetOpt\ArgumentException\Missing $exception)
+    {
+        // catch missing exceptions if help is requested
+        if (!$getOpt->getOption('help'))
+        {
+            throw $exception;
+        }
+    }
+}
+catch (GetOpt\ArgumentException $exception)
+{
+    echo 'help';
+    file_put_contents('php://stderr', $exception->getMessage() . PHP_EOL);
+    echo PHP_EOL . $getOpt->getHelpText();
+    exit;
+}
+foreach ($getOpt->getOptionObjects() as $option)
+{
+    if ($option->getMode() == GetOpt\GetOpt::REQUIRED_ARGUMENT && $option->getValue() == null)
+    {
+        file_put_contents('php://stderr', 'Missing required argument ' . $option->getName() . PHP_EOL);
+        die(PHP_EOL . $getOpt->getHelpText());
+    }
+}
+
+
+$path = $getOpt->getOption('path');
+$pathinfo = pathinfo($path);
 $info = descriptionMaker\TVSeriesUtils::parse_release($pathinfo['filename']);
 if (empty($info))
     die("Unable to parse series name\n");
-$tvdb_slug = $argv[2] ?? null;
-$tvdb_lang = $argv[3] ?? null;
+
 $tvdb_desc = new descriptionMaker\TVDB();
+$tvdb_slug = $getOpt->getOption('slug');
 
 try
 {
     if(!empty($tvdb_slug))
     {
-        $series = $tvdb_scrape->series($tvdb_slug, $tvdb_lang);
+        $series = $tvdb_scrape->series($tvdb_slug, $getOpt->getOption('lang'));
         $banners = $series->banners();
     }
 }
@@ -49,17 +90,17 @@ if (!empty($search['overview'])) //Series overview
 
 if (!empty($series))
 {
-	$season = $series->season($info['season']);
+    $season = $series->season($info['season'], $getOpt->getOption('order') ?? 'official');
     if (empty($info['episode'])) //Complete season
         $description .= $tvdb_desc->episode_list($season);
     else //Single episode
         $description .= $tvdb_desc->episode($season->episode($info['episode'])) . "\n\n";
 }
 
-if (is_file($argv[1]))
-    $video_file = realpath($argv[1]);
-elseif (is_dir($argv[1]))
-    $video_file = files::first_file($argv[1], array('mkv', 'ts', 'mp4')); //TODO: Check mime type
+if (is_file($path))
+    $video_file = realpath($path);
+elseif (is_dir($path))
+    $video_file = files::first_file($path, array('mkv', 'ts', 'mp4')); //TODO: Check mime type
 else
     die("Video file not found\n");
 
