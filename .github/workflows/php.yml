@@ -18,7 +18,7 @@ jobs:
         dependencies: [ locked ]
         include:
           - php: '8.0'
-            dependencies: [ latest ]
+            dependencies: [ highest ]
             os: ubuntu-latest
 
     steps:
