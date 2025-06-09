@@ -58,6 +58,12 @@ foreach ($getOpt->getOptionObjects() as $option)
 
 $path = $getOpt->getOption('path');
 $pathinfo = pathinfo($path);
+if (is_dir($path))
+{
+    $pathinfo['filename'] = $pathinfo['basename'];
+    $pathinfo['extension'] = null;
+}
+
 $info = descriptionMaker\TVSeriesUtils::parse_release($pathinfo['filename']);
 if (empty($info))
     die("Unable to parse series name\n");
