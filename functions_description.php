@@ -23,6 +23,8 @@ class description
             else
                 $image_host = $config['imagehost']['host'];
             $this->image_host = new $image_host($config['imagehost']);
+            if (!empty($config['md5_folder']))
+                $this->image_host->md5_folder = datagutten\tools\files\files::path_join($config['md5_folder'], $this->image_host->site);
             $this->snapshots = new Snapshots($this->image_host);
         }
     }
