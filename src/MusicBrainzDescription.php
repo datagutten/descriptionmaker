@@ -79,13 +79,13 @@ class MusicBrainzDescription extends musicbrainz
     }
 
     /**
-     * @param $metadata_or_albumid
+     * @param array|string $metadata_or_albumid Array containing MUSICBRAINZ_ALBUMID or release MBID as string
      * @param ?seed\Release $release Release object
      * @param bool $cover_art
      * @return string
      * @throws MusicBrainzException
      */
-	function build_description($metadata_or_albumid, seed\Release $release = null, bool $cover_art = true): string
+	function build_description(array|string $metadata_or_albumid, seed\Release $release = null, bool $cover_art = true): string
 	{
 
 		if(is_string($metadata_or_albumid))

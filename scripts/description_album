@@ -1,49 +1,18 @@
 #!/usr/bin/php
 <?php
 
-use datagutten\AudioMetadata\AudioMetadata;
 use datagutten\descriptionMaker;
-use datagutten\descriptionMaker\EAClogBBCode;
 use datagutten\descriptionMaker\MusicBrainzDescription;
 use datagutten\tools\files\files;
-use OrpheusNET\Logchecker\Logchecker;
 
 
 require $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 
+$desc = descriptionMaker\DescriptionMakers::album($argv[1], ['flac']);
+
 $mb=new MusicBrainzDescription;
-
-try {
-    $file = files::first_file($argv[1], ['flac']);
-    $metadata = AudioMetadata::read_metadata($file);
-    $desc = $mb->build_description($metadata);
-}
-catch (FileNotFoundException $e) {
-    die($e->getMessage());
-}
-catch (datagutten\musicbrainz\exceptions\MusicBrainzException $e) {
-    die('Error from MusicBrainz: '.$e->getMessage());
-}
-
+$file = files::first_file($argv[1]);
 $info=pathinfo($argv[1]);
-$file_description = $info['dirname'].'/'.$info['filename'].'.txt';
-try
-{
-    $file_log = files::first_file($argv[1], ['log']);
-    $logchecker = new Logchecker();
-    $logchecker->newFile($file_log);
-    $logchecker->parse();
-    $score = $logchecker->getScore();
-    $details = $logchecker->getDetails();
-    $log_text = $logchecker->getLog();
-
-    $log_bbcode = EAClogBBCode::rewrite($log_text);
-    $desc .= sprintf("\n\nLog score: %d\n[spoiler]%s[/spoiler]", $score, $log_bbcode);
-}
-catch (InvalidArgumentException $e)
-{
-    echo "No log found\n";
-}
 
 try
 {
@@ -55,6 +24,8 @@ catch (descriptionMaker\exceptions\DescriptionException|FileNotFoundException $e
 {
 	echo $e->getMessage()."\n";
 }
+
+$file_description = descriptionMaker\utils::description_file($argv[1]);
 
 file_put_contents($file_description,$desc); //Write the complete description to a file
 printf("Description saved as %s\n", $file_description);
