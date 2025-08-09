@@ -46,4 +46,15 @@ class utils
             mkdir($snapshot_folder, 0777, true);
         return video::snapshots($file, $positions, $snapshot_folder);
     }
+
+    /**
+     * Get path to description file
+     * @param string $file
+     * @return string Description file path
+     */
+    public static function description_file(string $file): string
+    {
+        $info = pathinfo($file);
+        return files::path_join($info['dirname'], $info['filename'] . '.txt');
+    }
 }

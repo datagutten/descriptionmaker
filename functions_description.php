@@ -2,7 +2,6 @@
 
 use datagutten\descriptionMaker\Snapshots;
 use datagutten\image_host;
-use datagutten\tools\files\files;
 
 class description
 {
@@ -26,11 +25,5 @@ class description
             $this->image_host = new $image_host($config['imagehost']);
             $this->snapshots = new Snapshots($this->image_host);
         }
-    }
-
-    public static function description_file(string $file): string
-    {
-        $info = pathinfo($file);
-        return files::path_join($info['dirname'], $info['filename'] . '.txt');
     }
 }
