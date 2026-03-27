@@ -42,10 +42,9 @@ class EAClogBBCode
         $count = 1;
         while($count>0) {
             $pattern = '#<span class="([a-z0-9\s]+)">((?:[^</]|(?:\[/))+)</span>#';
-            $log = preg_replace_callback($pattern, 'self::color_class', $log, -1, $count);
+            $log = preg_replace_callback($pattern, 'EAClogBBCode::color_class', $log, -1, $count);
         }
         $log = preg_replace('#<strong>([^</]+)</strong>#', '$1', $log);
-        $log = preg_replace_callback('#<span class=[\'"]([a-z0-9]+)[\'"]>(.+)</span>#U','self::color_class', $log);
-        return $log;
+        return preg_replace_callback('#<span class=[\'"]([a-z0-9]+)[\'"]>(.+)</span>#U', 'EAClogBBCode::color_class', $log);
     }
 }
