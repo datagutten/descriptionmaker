@@ -35,7 +35,7 @@ class BBCode
      * @param string|null $text Link text
      * @return string Link tag
      */
-    public static function link(string $url, string $text = null): string
+    public static function link(string $url, ?string $text = null): string
     {
         if ($text)
             return self::argument('url', $url, $text);
@@ -49,7 +49,7 @@ class BBCode
      * @param string|null $link URL to make the image a link
      * @return string Image tag
      */
-    public static function image(string $url, string $link = null): string
+    public static function image(string $url, ?string $link = null): string
     {
         if (!empty($link))
             return self::argument('url', $link, self::simple('img', $url));

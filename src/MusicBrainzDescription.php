@@ -85,7 +85,7 @@ class MusicBrainzDescription extends musicbrainz
      * @return string
      * @throws MusicBrainzException
      */
-	function build_description(array|string $metadata_or_albumid, seed\Release $release = null, bool $cover_art = true): string
+	function build_description(array|string $metadata_or_albumid, ?seed\Release $release = null, bool $cover_art = true): string
 	{
 
 		if(is_string($metadata_or_albumid))

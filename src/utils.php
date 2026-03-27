@@ -37,7 +37,7 @@ class utils
      * @throws FileNotFoundException Video file not found
      * @throws DurationNotFoundException Unable to get video file duration
      */
-    public static function snapshots(string $file, string $snapshot_folder = null): array
+    public static function snapshots(string $file, ?string $snapshot_folder = null): array
     {
         $positions = video::snapshotsteps($file); //Calculate snapshot positions
         if (empty($snapshot_folder)) //Create snapshot directory in video folder if other folder is not specified
