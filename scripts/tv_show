@@ -135,5 +135,6 @@ catch (descriptionMaker\exceptions\DescriptionException|FileNotFoundException $e
 }
 
 $desc_file = files::path_join($pathinfo['dirname'], $pathinfo['filename'] . '.txt');
+$desc_file = descriptionMaker\utils::description_file($video_file);
 file_put_contents($desc_file, $description);
 printf("Description saved as %s\n", $desc_file);
