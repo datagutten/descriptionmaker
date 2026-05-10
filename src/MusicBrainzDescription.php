@@ -94,7 +94,7 @@ class MusicBrainzDescription extends musicbrainz
 			$albumid=$metadata_or_albumid['MUSICBRAINZ_ALBUMID'];
 
 		if(empty($release))
-            $release = $this->releaseFromMBID($albumid, ['artists', 'recordings', 'artist-credits']);
+            $release = $this->releaseFromMBID($albumid, ['artists', 'recordings', 'artist-credits', 'url-rels']);
 
         if($cover_art)
         {
@@ -115,11 +115,18 @@ class MusicBrainzDescription extends musicbrainz
 		if (!empty($album->{'release'}->country)) {
 			$country_text = sprintf("Country: %s\n",$album->{'release'}->country);
 		}*/
-        $links = $this->get_links($release);
         $link_string = BBCode::link($release->link(), 'MusicBrainz') . "\n";
-        foreach ($links as $link)
+        foreach ($release->urls as $link)
         {
-            $link_string .= BBCode::link($link['url'], $link['text']) . "\n";
+            if (str_contains($link->url, 'spotify'))
+                $text = 'Stream at Spotify';
+            elseif (str_contains($link->url, 'tidal'))
+                $text = 'Stream at Tidal';
+            elseif (str_contains($link->url, 'music.apple.com'))
+                $text = 'Apple Music';
+            else
+                continue;
+            $link_string .= BBCode::link($link->url, $text) . "\n";
         }
 
 		$barcode_text = "";
