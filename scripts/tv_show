@@ -126,7 +126,7 @@ catch (descriptionMaker\exceptions\SnapshotException $e)
 try
 {
 	$mediainfo = descriptionMaker\Mediainfo::plain($video_file);
-	$mediainfo_file = files::path_join($pathinfo['dirname'], $pathinfo['basename'] . '.mediainfo');
+	$mediainfo_file = descriptionMaker\utils::description_file($path, '.mediainfo');
 	file_put_contents($mediainfo_file, $mediainfo);
 }
 catch (descriptionMaker\exceptions\DescriptionException|FileNotFoundException $e)
@@ -135,6 +135,6 @@ catch (descriptionMaker\exceptions\DescriptionException|FileNotFoundException $e
 }
 
 $desc_file = files::path_join($pathinfo['dirname'], $pathinfo['filename'] . '.txt');
-$desc_file = descriptionMaker\utils::description_file($video_file);
+$desc_file = descriptionMaker\utils::description_file($path);
 file_put_contents($desc_file, $description);
 printf("Description saved as %s\n", $desc_file);

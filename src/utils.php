@@ -50,11 +50,15 @@ class utils
     /**
      * Get path to description file
      * @param string $file
+     * @param string $extension
      * @return string Description file path
      */
-    public static function description_file(string $file): string
+    public static function description_file(string $file, string $extension = '.txt'): string
     {
         $info = pathinfo($file);
-        return files::path_join($info['dirname'], $info['filename'] . '.txt');
+        if (is_dir($file))
+            return files::path_join($info['dirname'], $info['basename'] . $extension);
+        else
+            return files::path_join($info['dirname'], $info['filename'] . $extension);
     }
 }
